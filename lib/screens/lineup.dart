@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:initiative/model/group.dart';
 import 'package:initiative/model/participant.dart';
-import 'package:initiative/screens/groups/groups.dart';
+import 'package:initiative/screens/groups.dart';
 
 class LineupScreen extends StatefulWidget {
   LineupScreen({Key key}) : super(key: key);

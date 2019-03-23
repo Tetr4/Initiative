@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:initiative/model/group.dart';
 import 'package:initiative/model/participant.dart';
-import 'package:initiative/screens/heroes/heroes.dart';
+import 'package:initiative/screens/heroes.dart';
 
 class GroupsScreen extends StatefulWidget {
   @override
@@ -64,7 +64,7 @@ class GroupDialog extends StatefulWidget {
 
 class _GroupDialogState extends State<GroupDialog> {
   final _formKey = GlobalKey<FormState>();
-  String _name = "";
+  final _nameKey = GlobalKey<FormFieldState<String>>();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class _GroupDialogState extends State<GroupDialog> {
       content: Form(
         key: _formKey,
         child: TextFormField(
-          onSaved: (text) => _name = text,
+          key: _nameKey,
           decoration: InputDecoration(labelText: "Name"),
           validator: (value) {
             if (value.isEmpty) {
@@ -87,9 +87,9 @@ class _GroupDialogState extends State<GroupDialog> {
             child: new Text("Create"),
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+                final name = _nameKey.currentState.value;
                 Navigator.of(context).pop();
-                widget.onCreateGroup(Group(_name, [
+                widget.onCreateGroup(Group(name, [
                   Participant("asdf"),
                   Participant("asdf 2"),
                 ]));
