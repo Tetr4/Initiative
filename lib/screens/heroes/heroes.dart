@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/group.dart';
 
 class HeroesScreen extends StatelessWidget {
-  // TODO heroes property
+  // TODO heroes property?
   final Group group;
 
   HeroesScreen(this.group, {Key key}) : super(key: key);
@@ -58,6 +58,7 @@ class HeroDialog extends StatelessWidget {
         new FlatButton(
             child: new Text("Close"),
             onPressed: () {
+              // TODO
               Navigator.of(context).pop();
             })
       ],

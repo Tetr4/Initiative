@@ -1,7 +1,5 @@
-// This sample shows adding an action to an [AppBar] that opens a shopping cart.
-
 import 'package:flutter/material.dart';
-import 'package:initiative/screens/battle/battle.dart';
+import 'package:initiative/screens/home/home.dart';
 
 void main() => runApp(InitiativeApp());
 
@@ -15,7 +13,7 @@ class InitiativeApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         brightness: Brightness.dark
       ),
-      home: BattleScreen(),
+      home: HomeScreen(),
     );
   }
 }

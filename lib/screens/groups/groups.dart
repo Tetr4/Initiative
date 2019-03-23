@@ -59,15 +59,12 @@ class GroupDialog extends StatefulWidget {
   const GroupDialog(this.onCreateGroup, {Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _GroupDialogState(onCreateGroup);
+  State<StatefulWidget> createState() => _GroupDialogState();
 }
 
 class _GroupDialogState extends State<GroupDialog> {
-  final Function(Group group) onCreateGroup;
   final _formKey = GlobalKey<FormState>();
   String _name = "";
-
-  _GroupDialogState(this.onCreateGroup);
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +89,7 @@ class _GroupDialogState extends State<GroupDialog> {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 Navigator.of(context).pop();
-                onCreateGroup(Group(_name, [
+                widget.onCreateGroup(Group(_name, [
                   Participant("asdf"),
                   Participant("asdf 2"),
                 ]));
