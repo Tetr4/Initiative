@@ -13,11 +13,17 @@ class LineupScreen extends StatefulWidget {
 class _LineupScreenState extends State<LineupScreen> {
   final List<Participant> participants = [];
 
-  _addGroup(Group group) {
-    setState(() {
-      participants.addAll(group.heroes);
-    });
-  }
+  _addGroup(Group group) => setState(() {
+        participants.addAll(group.heroes);
+      });
+
+  _removeParticipant(int index) => setState(() {
+        participants.removeAt(index);
+      });
+
+  _addParticipant(Participant participant, int index) => setState(() {
+        participants.insert(index, participant);
+      });
 
   _selectGroup(BuildContext context) async {
     final Group group = await Navigator.push(
@@ -34,44 +40,55 @@ class _LineupScreenState extends State<LineupScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lineup'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.check),
-            tooltip: 'Start battle',
-            onPressed: () {
-              Navigator.pop(context, participants);
-            },
-          ),
-        ],
+        actions: participants.isEmpty ? [] : [_buildStartBattleButton(context)],
       ),
       body: ListView.builder(
         itemCount: participants.length,
-        itemBuilder: (context, index) {
-          final participant = participants[index];
-          return Dismissible(
-            background: Container(color: Colors.red),
-            key: Key(participant.name),
-            onDismissed: (direction) {
-              setState(() {
-                participants.removeAt(index);
-              });
-              Scaffold
-                  .of(context)
-                  .showSnackBar(SnackBar(content: Text("${participant.name} dismissed")));
-            },
-            child: ListTile(
-              title: Text('${participants[index].name}'),
-            ),
-          );
-        },
+        itemBuilder: _buildParticipantItem,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _selectGroup(context);
-        },
-        tooltip: 'Add participant',
-        child: Icon(Icons.add),
+      floatingActionButton: _buildAddParticipantButton(context),
+    );
+  }
+
+  Widget _buildStartBattleButton(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.check),
+      tooltip: 'Start battle',
+      onPressed: () {
+        Navigator.pop(context, participants);
+      },
+    );
+  }
+
+  Widget _buildParticipantItem(BuildContext context, int index) {
+    final participant = participants[index];
+    return Dismissible(
+      background: Container(color: Theme.of(context).primaryColor),
+      key: ObjectKey(participant),
+      onDismissed: (direction) {
+        _removeParticipant(index);
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("${participant.name} dismissed"),
+          action: SnackBarAction(
+              label: "undo",
+              onPressed: () {
+                _addParticipant(participant, index);
+              }),
+        ));
+      },
+      child: ListTile(
+        title: Text('${participants[index].name}'),
       ),
+    );
+  }
+
+  Widget _buildAddParticipantButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        _selectGroup(context);
+      },
+      tooltip: 'Add participant',
+      child: Icon(Icons.add),
     );
   }
 }

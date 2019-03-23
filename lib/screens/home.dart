@@ -12,17 +12,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Participant> _lineup = [];
 
-  _startBattle(List<Participant> participants) {
-    setState(() {
-      _lineup = participants;
-    });
-  }
+  bool get _activeBattle => _lineup.isNotEmpty;
 
-  _endBattle() {
-    setState(() {
-      _lineup = [];
-    });
-  }
+  _startBattle(List<Participant> participants) => setState(() {
+        _lineup = participants;
+      });
+
+  _endBattle() => setState(() {
+        _lineup = [];
+      });
 
   _selectLineupAndStartBattle(BuildContext context) async {
     final List<Participant> lineup = await Navigator.push(
@@ -34,37 +32,41 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  List<Widget> _buildBattleActions(BuildContext context) => <Widget>[
-        PopupMenuButton<VoidCallback>(
-          onSelected: (callback) => callback(),
-          itemBuilder: (BuildContext context) {
-            return [
-              PopupMenuItem(
-                value: _endBattle,
-                child: Text("End Battle"),
-              ),
-            ];
-          },
-        ),
-      ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Battle'),
-        actions: _lineup.isEmpty ? null : _buildBattleActions(context),
+        actions: _activeBattle ? [_buildEndBattleButton(context)] : [],
       ),
-      body: _lineup.isEmpty
-          ? LandingBody(_selectLineupAndStartBattle)
-          : BattleBody(_endBattle, _lineup),
-      floatingActionButton: _lineup.isEmpty
-          ? null
-          : FloatingActionButton(
-              onPressed: () {},
-              tooltip: 'Increment',
-              child: Icon(Icons.add),
-            ),
+      body: _activeBattle
+          ? BattleBody(_endBattle, _lineup)
+          : LandingBody(_selectLineupAndStartBattle),
+      floatingActionButton: _activeBattle ? _buildAddParticipantButton() : null,
+    );
+  }
+
+  Widget _buildEndBattleButton(BuildContext context) {
+    return PopupMenuButton<VoidCallback>(
+      onSelected: (callback) => callback(),
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            value: _endBattle,
+            child: Text("End Battle"),
+          ),
+        ];
+      },
+    );
+  }
+
+  FloatingActionButton _buildAddParticipantButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        // TODO
+      },
+      tooltip: 'Increment',
+      child: Icon(Icons.add),
     );
   }
 }

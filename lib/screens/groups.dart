@@ -23,32 +23,36 @@ class _GroupsScreenState extends State<GroupsScreen> {
       appBar: AppBar(title: Text('Groups')),
       body: ListView.builder(
         itemCount: groups.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title:
-                Text('${groups[index].name} - ${groups[index].heroes.length}'),
-            onLongPress: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HeroesScreen(groups[index])),
-              );
-            },
-            onTap: () => Navigator.pop(context, groups[index]),
-          );
-        },
+        itemBuilder: _buildGroupItem,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return new GroupDialog(_createGroup);
-              });
-        },
-        tooltip: 'Add group',
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: _buildCreateGroupButton(context),
+    );
+  }
+
+  Widget _buildGroupItem(context, index) {
+    return ListTile(
+      title: Text('${groups[index].name} - ${groups[index].heroes.length}'),
+      onLongPress: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HeroesScreen(groups[index])),
+        );
+      },
+      onTap: () => Navigator.pop(context, groups[index]),
+    );
+  }
+
+  Widget _buildCreateGroupButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return GroupDialog(_createGroup);
+            });
+      },
+      tooltip: 'Add group',
+      child: Icon(Icons.add),
     );
   }
 }
@@ -56,7 +60,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
 class GroupDialog extends StatefulWidget {
   final Function(Group group) onCreateGroup;
 
-  const GroupDialog(this.onCreateGroup, {Key key}) : super(key: key);
+  GroupDialog(this.onCreateGroup, {Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _GroupDialogState();
@@ -72,30 +76,37 @@ class _GroupDialogState extends State<GroupDialog> {
       title: Text("New Group"),
       content: Form(
         key: _formKey,
-        child: TextFormField(
-          key: _nameKey,
-          decoration: InputDecoration(labelText: "Name"),
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter some text';
-            }
-          },
-        ),
+        child: _buildNameField(),
       ),
-      actions: <Widget>[
-        new FlatButton(
-            child: new Text("Create"),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                final name = _nameKey.currentState.value;
-                Navigator.of(context).pop();
-                widget.onCreateGroup(Group(name, [
-                  Participant("asdf"),
-                  Participant("asdf 2"),
-                ]));
-              }
-            })
-      ],
+      actions: <Widget>[_buildCreateButton(context)],
+    );
+  }
+
+  TextFormField _buildNameField() {
+    return TextFormField(
+      key: _nameKey,
+      decoration: InputDecoration(labelText: "Name"),
+      validator: (value) {
+        if (value.isEmpty) {
+          return 'Please enter some text';
+        }
+      },
+    );
+  }
+
+  FlatButton _buildCreateButton(BuildContext context) {
+    return FlatButton(
+      child: new Text("Create"),
+      onPressed: () {
+        if (_formKey.currentState.validate()) {
+          final name = _nameKey.currentState.value;
+          Navigator.of(context).pop();
+          widget.onCreateGroup(Group(name, [
+            Participant("asdf"),
+            Participant("asdf 2"),
+          ]));
+        }
+      },
     );
   }
 }

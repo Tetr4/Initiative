@@ -12,15 +12,6 @@ class HeroesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Heroes'),
-//        actions: <Widget>[
-//          IconButton(
-//            icon: Icon(Icons.shopping_cart),
-//            tooltip: 'Open shopping cart',
-//            onPressed: () {
-//              // ...
-//            },
-//          ),
-//        ],
       ),
       body: Center(
         child: Column(
@@ -43,7 +34,6 @@ class HeroesScreen extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class HeroDialog extends StatelessWidget {

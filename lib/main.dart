@@ -10,7 +10,6 @@ class InitiativeApp extends StatelessWidget {
       title: 'Initiative App',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
-        brightness: Brightness.dark,
       ),
       home: HomeScreen(),
     );
