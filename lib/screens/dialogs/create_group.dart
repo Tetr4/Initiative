@@ -32,7 +32,7 @@ class _GroupDialogState extends State<GroupDialog> {
       decoration: InputDecoration(labelText: "Name"),
       validator: (value) {
         if (value.isEmpty) {
-          return 'Please enter some text';
+          return 'Please enter a name';
         }
       },
     );

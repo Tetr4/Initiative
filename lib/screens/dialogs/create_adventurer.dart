@@ -30,18 +30,15 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
     );
   }
 
-  String _validate(String text) {
-    if (text.isEmpty) {
-      return 'Please enter some text';
-    }
-    return null;
-  }
-
   TextFormField _buildNameField() {
     return TextFormField(
       key: _nameKey,
       decoration: InputDecoration(labelText: "Name"),
-      validator: _validate,
+      validator: (text) {
+        if (text.isEmpty) {
+          return 'Please enter a name';
+        }
+      },
     );
   }
 
@@ -49,7 +46,11 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
     return TextFormField(
       key: _descriptionKey,
       decoration: InputDecoration(labelText: "Description"),
-      validator: _validate,
+      validator: (text) {
+        if (text.isEmpty) {
+          return 'Please enter a description';
+        }
+      },
     );
   }
 

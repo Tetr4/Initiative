@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:initiative/model/group.dart';
 import 'package:initiative/model/participant.dart';
+import 'package:initiative/screens/dialogs/create_npc.dart';
 import 'package:initiative/screens/groups.dart';
 
 class BattleScreen extends StatefulWidget {
@@ -18,6 +19,10 @@ class _BattleScreenState extends State<BattleScreen> {
 
   _removeParticipant(Participant participant) => setState(() {
         participants.remove(participant);
+      });
+
+  _addParticipants(participant) => setState(() {
+        participants.add(participant);
       });
 
   _addParticipant(Participant participant, int index) => setState(() {
@@ -51,7 +56,7 @@ class _BattleScreenState extends State<BattleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lineup'),
+        title: Text('Battle'),
         actions: participants.isEmpty ? [] : [_buildInitiativeButton(context)],
       ),
       body: participants.isEmpty
@@ -83,7 +88,11 @@ class _BattleScreenState extends State<BattleScreen> {
           child: Icon(Icons.bug_report),
           backgroundColor: Colors.red,
           label: 'NPC',
-          onTap: () => print('FIRST CHILD'),
+          onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    NpcDialog(onCreate: _addParticipants),
+              ),
         ),
         SpeedDialChild(
           child: Icon(Icons.face),
