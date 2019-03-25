@@ -21,5 +21,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
   # see https://flutter.io/assets-and-images/#resolution-aware.
   # see https://flutter.io/assets-and-images/#from-packages

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:initiative/screens/home.dart';
+import 'package:initiative/screens/battle.dart';
 
 void main() => runApp(InitiativeApp());
 
@@ -11,7 +11,7 @@ class InitiativeApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: HomeScreen(),
+      home: BattleScreen(),
     );
   }
 }

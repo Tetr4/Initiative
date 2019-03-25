@@ -4,26 +4,13 @@ import 'package:initiative/model/group.dart';
 import 'package:initiative/model/participant.dart';
 import 'package:initiative/screens/groups.dart';
 
-class LineupScreen extends StatefulWidget {
+class BattleScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _LineupScreenState();
+  State<StatefulWidget> createState() => _BattleScreenState();
 }
 
-class _LineupScreenState extends State<LineupScreen> {
-  final List<Participant> participants = [
-    Character("Turweck", "Zwerg Magier"),
-    Character("Raven", "Halbelf Schurke"),
-    Character("Artemis", "Mensch Hexenmeister"),
-    Character("Vincent", "Mensch Kleriker"),
-    Character("Zarzuket", "Gnom Mentalist"),
-    Npc("Giant Spider"),
-    Npc("Dragon"),
-    Npc("Goblin 1"),
-    Npc("Goblin 2"),
-    Npc("Goblin 3"),
-    Npc("Goblin 4"),
-    Npc("Goblin 5"),
-  ];
+class _BattleScreenState extends State<BattleScreen> {
+  final List<Participant> participants = [];
 
   _addGroup(Group group) => setState(() {
         participants.addAll(group.heroes);
@@ -62,21 +49,23 @@ class _LineupScreenState extends State<LineupScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lineup'),
-        actions: participants.isEmpty ? [] : [_buildStartBattleButton(context)],
+        actions: participants.isEmpty ? [] : [_buildInitiativeButton(context)],
       ),
-      body: Scrollbar(
-        child: Builder(builder: _buildParticipantList),
-      ),
+      body: participants.isEmpty
+          ? _buildEmptyState()
+          : Scrollbar(
+              child: Builder(builder: _buildParticipantList),
+            ),
       floatingActionButton: _buildAddParticipantButton(context),
     );
   }
 
-  Widget _buildStartBattleButton(BuildContext context) {
+  Widget _buildInitiativeButton(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.check),
-      tooltip: 'Start battle',
+      icon: Icon(Icons.casino),
+      tooltip: 'Roll initiative',
       onPressed: () {
-        Navigator.pop(context, participants);
+        // TODO
       },
     );
   }
@@ -106,6 +95,34 @@ class _LineupScreenState extends State<LineupScreen> {
           onTap: () => _selectGroup(context),
         ),
       ],
+    );
+  }
+
+  _buildEmptyState() {
+    // TODO use animated svg: https://github.com/2d-inc/Flare-Flutter
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 64),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/battle_swords.png',
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.center,
+          ),
+          Padding(
+              padding: EdgeInsets.only(top: 32, bottom: 16),
+              child: Text(
+                'No active battle.',
+                style: Theme.of(context).textTheme.title,
+              )),
+          Text(
+            'Add participants to start the battle.',
+            style: Theme.of(context).textTheme.subtitle,
+          )
+        ],
+      ),
     );
   }
 

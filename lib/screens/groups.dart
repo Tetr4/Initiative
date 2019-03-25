@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:initiative/model/group.dart';
+import 'package:initiative/model/participant.dart';
 import 'package:initiative/screens/heroes.dart';
 
 class GroupsScreen extends StatefulWidget {
@@ -8,7 +9,22 @@ class GroupsScreen extends StatefulWidget {
 }
 
 class _GroupsScreenState extends State<GroupsScreen> {
-  final List<Group> groups = [];
+  final List<Group> groups = [
+    Group("Foobarion", [
+      Character("Turweck", "Zwerg Magier"),
+      Character("Raven", "Halbelf Schurke"),
+      Character("Artemis", "Mensch Hexenmeister"),
+      Character("Vincent", "Mensch Kleriker"),
+      Character("Zarzuket", "Gnom Mentalist"),
+    ])
+//    Npc("Giant Spider"),
+//    Npc("Dragon"),
+//    Npc("Goblin 1"),
+//    Npc("Goblin 2"),
+//    Npc("Goblin 3"),
+//    Npc("Goblin 4"),
+//    Npc("Goblin 5"),
+  ];
 
   _createGroup(Group group) {
     setState(() {
@@ -29,8 +45,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
   }
 
   Widget _buildGroupItem(context, index) {
+    final group = groups[index];
     return ListTile(
-      title: Text('${groups[index].name} - ${groups[index].heroes.length}'),
+      title: Text(group.name),
+      subtitle: Text('${group.heroes.length} adventurers'),
       onLongPress: () => Navigator.push(
           context,
           MaterialPageRoute(
