@@ -3,6 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:initiative/model/group.dart';
 import 'package:initiative/model/participant.dart';
 import 'package:initiative/screens/dialogs/create_npc.dart';
+import 'package:initiative/screens/dialogs/roll_initiative.dart';
 import 'package:initiative/screens/groups.dart';
 
 class BattleScreen extends StatefulWidget {
@@ -12,6 +13,8 @@ class BattleScreen extends StatefulWidget {
 
 class _BattleScreenState extends State<BattleScreen> {
   final List<Participant> participants = [];
+  final List<Participant> initiativeUndetermined = [];
+  final Map<Participant, int> initiatives = Map();
 
   _addGroup(Group group) => setState(() {
         participants.addAll(group.adventurers);
@@ -42,15 +45,17 @@ class _BattleScreenState extends State<BattleScreen> {
     }
   }
 
-  _onReorder(int oldIndex, int newIndex) {
-    setState(() {
-      if (newIndex > oldIndex) {
-        newIndex -= 1;
-      }
-      final Participant item = participants.removeAt(oldIndex);
-      participants.insert(newIndex, item);
-    });
-  }
+  _onReorder(int oldIndex, int newIndex) => setState(() {
+        if (newIndex > oldIndex) {
+          newIndex -= 1;
+        }
+        final Participant item = participants.removeAt(oldIndex);
+        participants.insert(newIndex, item);
+      });
+
+  void _reorderByInitiative(Map<Participant, int> initiatives) => setState(() {
+        participants.sort((a, b) => initiatives[b].compareTo(initiatives[a]));
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +78,10 @@ class _BattleScreenState extends State<BattleScreen> {
       icon: Icon(Icons.casino),
       tooltip: 'Roll initiative',
       onPressed: () {
-        // TODO
+        initiatives.clear();
+        initiativeUndetermined.clear();
+        initiativeUndetermined.addAll(this.participants);
+        _showNextInitiativeDialog();
       },
     );
   }
@@ -164,6 +172,25 @@ class _BattleScreenState extends State<BattleScreen> {
         onPressed: () => _addParticipant(participant, index),
       ),
     ));
+  }
+
+  void _showNextInitiativeDialog() {
+    if (initiativeUndetermined.isEmpty) {
+      _reorderByInitiative(initiatives);
+    } else {
+      final participant = initiativeUndetermined.removeAt(0);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => InitiativeDialog(
+              participant: participant,
+              onRolled: (initiative) {
+                // TODO handle ties
+                initiatives[participant] = initiative;
+                _showNextInitiativeDialog();
+              },
+            ),
+      );
+    }
   }
 }
 
