@@ -27,7 +27,10 @@ class _BattleScreenState extends State<BattleScreen> {
   _selectGroup(BuildContext context) async {
     final Group group = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => GroupsScreen()),
+      MaterialPageRoute(
+        builder: (context) => GroupsScreen(),
+        fullscreenDialog: true,
+      ),
     );
     if (group != null) {
       _addGroup(group);

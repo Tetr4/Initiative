@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/group.dart';
 import 'package:initiative/model/participant.dart';
 import 'package:initiative/screens/adventurers.dart';
+import 'package:initiative/screens/dialogs/create_group.dart';
 
 class GroupsScreen extends StatefulWidget {
   @override
@@ -17,25 +18,25 @@ class _GroupsScreenState extends State<GroupsScreen> {
       Adventurer("Vincent", "Mensch Kleriker"),
       Adventurer("Zarzuket", "Gnom Mentalist"),
     ])
-//    Npc("Giant Spider"),
-//    Npc("Dragon"),
-//    Npc("Goblin 1"),
-//    Npc("Goblin 2"),
-//    Npc("Goblin 3"),
-//    Npc("Goblin 4"),
-//    Npc("Goblin 5"),
   ];
 
-  _createGroup(Group group) {
+  _addAdventurersToGroup(Group group) async {
+    final List<Adventurer> adventurers = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AdventurersScreen(group: group),
+        fullscreenDialog: true,
+      ),
+    );
     setState(() {
-      groups.add(group);
+      groups.add(Group(group.name, adventurers));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Groups')),
+      appBar: AppBar(title: Text('Add group')),
       body: ListView.builder(
         itemCount: groups.length,
         itemBuilder: _buildGroupItem,
@@ -61,63 +62,12 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget _buildCreateGroupButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return GroupDialog(_createGroup);
-          }),
-      tooltip: 'Add group',
+            context: context,
+            builder: (BuildContext context) =>
+                GroupDialog(onCreate: _addAdventurersToGroup),
+          ),
+      tooltip: 'New group',
       child: Icon(Icons.add),
-    );
-  }
-}
-
-class GroupDialog extends StatefulWidget {
-  final Function(Group group) onCreateGroup;
-
-  GroupDialog(this.onCreateGroup, {Key key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _GroupDialogState();
-}
-
-class _GroupDialogState extends State<GroupDialog> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameKey = GlobalKey<FormFieldState<String>>();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text("New Group"),
-      content: Form(
-        key: _formKey,
-        child: _buildNameField(),
-      ),
-      actions: <Widget>[_buildCreateButton(context)],
-    );
-  }
-
-  TextFormField _buildNameField() {
-    return TextFormField(
-      key: _nameKey,
-      decoration: InputDecoration(labelText: "Name"),
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter some text';
-        }
-      },
-    );
-  }
-
-  FlatButton _buildCreateButton(BuildContext context) {
-    return FlatButton(
-      child: new Text("Create"),
-      onPressed: () {
-        if (_formKey.currentState.validate()) {
-          final name = _nameKey.currentState.value;
-          Navigator.of(context).pop();
-          widget.onCreateGroup(Group(name, []));
-        }
-      },
     );
   }
 }
