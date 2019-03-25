@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:initiative/model/group.dart';
-import 'package:initiative/model/participant.dart';
 import 'package:initiative/screens/heroes.dart';
 
 class GroupsScreen extends StatefulWidget {
@@ -32,25 +31,22 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget _buildGroupItem(context, index) {
     return ListTile(
       title: Text('${groups[index].name} - ${groups[index].heroes.length}'),
-      onLongPress: () {
-        Navigator.push(
+      onLongPress: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HeroesScreen(groups[index])),
-        );
-      },
+          MaterialPageRoute(
+            builder: (context) => HeroesScreen(group: groups[index]),
+          )),
       onTap: () => Navigator.pop(context, groups[index]),
     );
   }
 
   Widget _buildCreateGroupButton(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return GroupDialog(_createGroup);
-            });
-      },
+      onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return GroupDialog(_createGroup);
+          }),
       tooltip: 'Add group',
       child: Icon(Icons.add),
     );
@@ -101,10 +97,7 @@ class _GroupDialogState extends State<GroupDialog> {
         if (_formKey.currentState.validate()) {
           final name = _nameKey.currentState.value;
           Navigator.of(context).pop();
-          widget.onCreateGroup(Group(name, [
-            Participant("asdf"),
-            Participant("asdf 2"),
-          ]));
+          widget.onCreateGroup(Group(name, []));
         }
       },
     );

@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: _activeBattle ? [_buildEndBattleButton(context)] : [],
       ),
       body: _activeBattle
-          ? BattleBody(_endBattle, _lineup)
-          : LandingBody(_selectLineupAndStartBattle),
+          ? BattleBody(lineup: _lineup)
+          : LandingBody(onStartLineup: _selectLineupAndStartBattle),
       floatingActionButton: _activeBattle ? _buildAddParticipantButton() : null,
     );
   }
@@ -49,14 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildEndBattleButton(BuildContext context) {
     return PopupMenuButton<VoidCallback>(
       onSelected: (callback) => callback(),
-      itemBuilder: (BuildContext context) {
-        return [
-          PopupMenuItem(
-            value: _endBattle,
-            child: Text("End Battle"),
-          ),
-        ];
-      },
+      itemBuilder: (BuildContext context) => [
+            PopupMenuItem(
+              value: _endBattle,
+              child: Text("End Battle"),
+            ),
+          ],
     );
   }
 

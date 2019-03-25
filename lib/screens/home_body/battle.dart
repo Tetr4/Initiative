@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/participant.dart';
 
 class BattleBody extends StatefulWidget {
-  final VoidCallback onEndBattle;
   final List<Participant> lineup;
 
-  BattleBody(this.onEndBattle, this.lineup, {Key key}) : super(key: key);
+  BattleBody({Key key, @required this.lineup}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _BattleBodyState();

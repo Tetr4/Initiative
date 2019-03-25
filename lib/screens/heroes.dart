@@ -5,7 +5,7 @@ class HeroesScreen extends StatelessWidget {
   // TODO heroes property?
   final Group group;
 
-  HeroesScreen(this.group, {Key key}) : super(key: key);
+  HeroesScreen({Key key, @required this.group}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,6 @@ class HeroesScreen extends StatelessWidget {
 }
 
 class HeroDialog extends StatelessWidget {
-  const HeroDialog({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

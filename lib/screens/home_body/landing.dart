@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LandingBody extends StatelessWidget {
   final Function(BuildContext) onStartLineup;
 
-  LandingBody(this.onStartLineup, {Key key}) : super(key: key);
+  LandingBody({Key key, @required this.onStartLineup}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
