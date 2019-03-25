@@ -25,7 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
   _selectLineupAndStartBattle(BuildContext context) async {
     final List<Participant> lineup = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => LineupScreen()),
+      MaterialPageRoute(
+        builder: (context) => LineupScreen(),
+        fullscreenDialog: true,
+      ),
     );
     if (lineup != null && lineup.isNotEmpty) {
       _startBattle(lineup);
