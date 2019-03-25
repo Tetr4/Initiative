@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:initiative/model/group.dart';
 
-class HeroesScreen extends StatelessWidget {
-  // TODO heroes property?
+class AdventurersScreen extends StatelessWidget {
   final Group group;
 
-  HeroesScreen({Key key, @required this.group}) : super(key: key);
+  AdventurersScreen({Key key, @required this.group}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Heroes'),
+        title: Text('Adventurers'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Heroes.'),
+            Text('Adventurers.'),
           ],
         ),
       ),
@@ -29,7 +28,7 @@ class HeroesScreen extends StatelessWidget {
                 return new HeroDialog();
               });
         },
-        tooltip: 'Add hero',
+        tooltip: 'Add adventurer',
         child: Icon(Icons.add),
       ),
     );
@@ -40,8 +39,8 @@ class HeroDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("New Hero"),
-      content: Text("New Hero"),
+      title: Text("New Adventurer"),
+      content: Text("New Adventurer"),
       actions: <Widget>[
         new FlatButton(
             child: new Text("Close"),

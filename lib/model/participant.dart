@@ -4,10 +4,10 @@ class Participant {
   Participant(this.name);
 }
 
-class Character extends Participant {
+class Adventurer extends Participant {
   final String description;
 
-  Character(String name, this.description) : super(name);
+  Adventurer(String name, this.description) : super(name);
 }
 
 class Npc extends Participant {

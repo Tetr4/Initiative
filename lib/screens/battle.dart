@@ -13,7 +13,7 @@ class _BattleScreenState extends State<BattleScreen> {
   final List<Participant> participants = [];
 
   _addGroup(Group group) => setState(() {
-        participants.addAll(group.heroes);
+        participants.addAll(group.adventurers);
       });
 
   _removeParticipant(Participant participant) => setState(() {
@@ -85,7 +85,7 @@ class _BattleScreenState extends State<BattleScreen> {
         SpeedDialChild(
           child: Icon(Icons.face),
           backgroundColor: Colors.blue,
-          label: 'Hero',
+          label: 'Adventurer',
           onTap: () => print('SECOND CHILD'),
         ),
         SpeedDialChild(
@@ -169,7 +169,7 @@ class LineupItem extends StatelessWidget {
       background: Container(color: Theme.of(context).primaryColor),
       key: ObjectKey(participant),
       onDismissed: onDismissed,
-      child: participant is Character
+      child: participant is Adventurer
           ? ListTile(
               leading: Icon(Icons.face),
               title: Text(participant.name),
