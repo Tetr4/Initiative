@@ -59,11 +59,11 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
       child: new Text("Create"),
       onPressed: () {
         if (_formKey.currentState.validate()) {
-          final name = _nameKey.currentState.value;
-          final description = _descriptionKey.currentState.value;
+          final adventurer = Character(
+            name: _nameKey.currentState.value,
+            description: _descriptionKey.currentState.value,
+          );
           Navigator.of(context).pop();
-          final adventurer =
-              Character(name, description, CharacterType.ADVENTURER);
           widget.onCreate(adventurer);
         }
       },

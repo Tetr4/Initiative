@@ -5,12 +5,12 @@ import 'package:scoped_model/scoped_model.dart';
 
 class GroupsModel extends Model {
   final List<Group> _groups = [
-    Group("Foobarion", [
-      Character("Turweck", "Zwerg Magier", CharacterType.ADVENTURER),
-      Character("Raven", "Halbelf Schurke", CharacterType.ADVENTURER),
-      Character("Artemis", "Mensch Hexenmeister", CharacterType.ADVENTURER),
-      Character("Vincent", "Mensch Kleriker", CharacterType.ADVENTURER),
-      Character("Zarzuket", "Gnom Mentalist", CharacterType.ADVENTURER),
+    Group(name: "Foobarion", members: [
+      Character(name: "Turweck", description: "Zwerg Magier"),
+      Character(name: "Raven", description: "Halbelf Schurke"),
+      Character(name: "Artemis", description: "Mensch Hexenmeister"),
+      Character(name: "Vincent", description: "Mensch Kleriker"),
+      Character(name: "Zarzuket", description: "Gnom Mentalist"),
     ])
   ];
 

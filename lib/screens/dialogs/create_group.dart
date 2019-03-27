@@ -43,9 +43,9 @@ class _GroupDialogState extends State<GroupDialog> {
       child: new Text("Create"),
       onPressed: () {
         if (_formKey.currentState.validate()) {
-          final name = _nameKey.currentState.value;
+          final group = Group(name: _nameKey.currentState.value);
           Navigator.of(context).pop();
-          widget.onCreate(Group(name, []));
+          widget.onCreate(group);
         }
       },
     );

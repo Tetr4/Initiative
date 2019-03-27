@@ -43,9 +43,11 @@ class _NpcDialogState extends State<NpcDialog> {
       child: new Text("Create"),
       onPressed: () {
         if (_formKey.currentState.validate()) {
-          final name = _nameKey.currentState.value;
+          final npc = Character(
+            name: _nameKey.currentState.value,
+            type: CharacterType.NPC,
+          );
           Navigator.of(context).pop();
-          final npc = Character(name, null, CharacterType.NPC);
           widget.onCreate(npc);
         }
       },

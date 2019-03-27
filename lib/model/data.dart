@@ -1,9 +1,15 @@
+import 'package:meta/meta.dart';
+
 class Character {
   final String name;
   final String description;
   final CharacterType type;
 
-  Character(this.name, this.description, this.type);
+  Character({
+    @required this.name,
+    this.description = "",
+    this.type = CharacterType.ADVENTURER,
+  });
 
   Character.fromJson(Map<String, dynamic> json)
       : name = json['name'],
@@ -23,9 +29,8 @@ class Group {
   final String name;
   final List<Character> members;
 
-  Group(this.name, this.members);
+  Group({@required this.name, this.members = const []});
 
-  Group copy(List<Character> newMembers) {
-    return Group(this.name, newMembers);
-  }
+  Group copy(List<Character> newMembers) =>
+      Group(name: this.name, members: newMembers);
 }
