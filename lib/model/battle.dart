@@ -13,7 +13,11 @@ class BattleModel extends Model {
     return participants.isNotEmpty;
   }
 
-  loadBattle() {}
+  setParticipants(List<Participant> participants) {
+    _participants.clear();
+    _participants.addAll(participants);
+    notifyListeners();
+  }
 
   addGroup(Group group) {
     for (final adventurer in group.adventurers) {

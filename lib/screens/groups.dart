@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
+import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/adventurers.dart';
 import 'package:initiative/screens/dialogs/create_group.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class GroupsScreen extends StatefulWidget {
   @override
@@ -9,52 +11,49 @@ class GroupsScreen extends StatefulWidget {
 }
 
 class _GroupsScreenState extends State<GroupsScreen> {
-  final List<Group> groups = [
-    Group("Foobarion", [
-      Adventurer("Turweck", "Zwerg Magier"),
-      Adventurer("Raven", "Halbelf Schurke"),
-      Adventurer("Artemis", "Mensch Hexenmeister"),
-      Adventurer("Vincent", "Mensch Kleriker"),
-      Adventurer("Zarzuket", "Gnom Mentalist"),
-    ])
-  ];
+  GroupsModel groups;
 
-  _addAdventurersToGroup(Group group) async {
-    final List<Adventurer> adventurers = await Navigator.push(
+  _createGroup(Group group) {
+    groups.add(group);
+    _editGroup(groups.items.indexOf(group));
+  }
+
+  _editGroup(int index) {
+    Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AdventurersScreen(group: group),
+        builder: (context) => ScopedModel<GroupsModel>(
+              model: groups,
+              child: AdventurersScreen(groupIndex: index),
+            ),
         fullscreenDialog: true,
       ),
     );
-    setState(() {
-      groups.add(Group(group.name, adventurers));
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Add group')),
-      body: ListView.builder(
-        itemCount: groups.length,
-        itemBuilder: _buildGroupItem,
-      ),
-      floatingActionButton: _buildCreateGroupButton(context),
-    );
+    return ScopedModelDescendant<GroupsModel>(
+        builder: (context, child, groups) {
+      this.groups = groups;
+      return Scaffold(
+        appBar: AppBar(title: Text('Add group')),
+        body: ListView.builder(
+          itemCount: groups.items.length,
+          itemBuilder: _buildGroupItem,
+        ),
+        floatingActionButton: _buildCreateGroupButton(context),
+      );
+    });
   }
 
   Widget _buildGroupItem(context, index) {
-    final group = groups[index];
+    final group = groups.items[index];
     return ListTile(
       title: Text(group.name),
       subtitle: Text('${group.adventurers.length} adventurers'),
-      onLongPress: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AdventurersScreen(group: groups[index]),
-          )),
-      onTap: () => Navigator.pop(context, groups[index]),
+      onLongPress: () => _editGroup(index),
+      onTap: () => Navigator.pop(context, group),
     );
   }
 
@@ -63,7 +62,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
       onPressed: () => showDialog(
             context: context,
             builder: (BuildContext context) =>
-                GroupDialog(onCreate: _addAdventurersToGroup),
+                GroupDialog(onCreate: _createGroup),
           ),
       tooltip: 'New group',
       child: Icon(Icons.add),

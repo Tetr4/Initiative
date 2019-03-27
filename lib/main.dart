@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:initiative/model/battle.dart';
+import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/battle.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -7,8 +8,9 @@ void main() => runApp(InitiativeApp());
 
 class InitiativeApp extends StatelessWidget {
   final battle = BattleModel();
+  final groups = GroupsModel();
 
-  // TODO connect battle model with local persistence repository
+  // TODO connect models with local persistence repository
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,10 @@ class InitiativeApp extends StatelessWidget {
       ),
       home: ScopedModel<BattleModel>(
         model: battle,
-        child: BattleScreen(),
+        child: ScopedModel<GroupsModel>(
+          model: groups,
+          child: BattleScreen(),
+        ),
       ),
     );
   }

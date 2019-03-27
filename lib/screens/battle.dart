@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/data.dart';
+import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/dialogs/create_npc.dart';
 import 'package:initiative/screens/dialogs/roll_initiative.dart';
 import 'package:initiative/screens/groups.dart';
@@ -18,10 +19,14 @@ class _BattleScreenState extends State<BattleScreen> {
   BattleModel battle;
 
   _selectGroup(BuildContext context) async {
+    final groups = ScopedModel.of<GroupsModel>(context);
     final Group group = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GroupsScreen(),
+        builder: (context) => ScopedModel<GroupsModel>(
+              model: groups,
+              child: GroupsScreen(),
+            ),
         fullscreenDialog: true,
       ),
     );
@@ -42,7 +47,7 @@ class _BattleScreenState extends State<BattleScreen> {
         ),
         body: battle.isActive
             ? Scrollbar(child: Builder(builder: _buildParticipantList))
-            : _buildEmptyState(),
+            : EmptyBattleBody(),
         floatingActionButton: _buildAddParticipantButton(context),
       );
     });
@@ -90,34 +95,6 @@ class _BattleScreenState extends State<BattleScreen> {
           onTap: () => _selectGroup(context),
         ),
       ],
-    );
-  }
-
-  _buildEmptyState() {
-    // TODO use animated svg: https://github.com/2d-inc/Flare-Flutter
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 64),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/battle_swords.png',
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.center,
-          ),
-          Padding(
-              padding: EdgeInsets.only(top: 32, bottom: 16),
-              child: Text(
-                'No active battle.',
-                style: Theme.of(context).textTheme.title,
-              )),
-          Text(
-            'Add participants to start the battle.',
-            style: Theme.of(context).textTheme.subtitle,
-          )
-        ],
-      ),
     );
   }
 
@@ -169,12 +146,47 @@ class _BattleScreenState extends State<BattleScreen> {
   }
 }
 
+class EmptyBattleBody extends StatelessWidget {
+  // TODO use animated svg: https://github.com/2d-inc/Flare-Flutter
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 64),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/battle_swords.png',
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.center,
+          ),
+          Padding(
+              padding: EdgeInsets.only(top: 32, bottom: 16),
+              child: Text(
+                'No active battle.',
+                style: Theme.of(context).textTheme.title,
+              )),
+          Text(
+            'Add participants to start the battle.',
+            style: Theme.of(context).textTheme.subtitle,
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class LineupItem extends StatelessWidget {
   final Participant participant;
   final ConfirmDismissCallback onDismissed;
 
-  LineupItem({Key key, @required this.participant, @required this.onDismissed})
-      : super(key: key);
+  LineupItem({
+    Key key,
+    @required this.participant,
+    @required this.onDismissed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

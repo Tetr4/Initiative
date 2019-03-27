@@ -19,4 +19,8 @@ class Group {
   final List<Adventurer> adventurers;
 
   Group(this.name, this.adventurers);
+
+  Group copy(List<Adventurer> adventurers) {
+    return Group(this.name, adventurers);
+  }
 }
