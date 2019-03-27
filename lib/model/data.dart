@@ -13,3 +13,10 @@ class Adventurer extends Participant {
 class Npc extends Participant {
   Npc(String name) : super(name);
 }
+
+class Group {
+  final String name;
+  final List<Adventurer> adventurers;
+
+  Group(this.name, this.adventurers);
+}

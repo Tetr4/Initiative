@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:initiative/model/participant.dart';
+import 'package:initiative/model/data.dart';
 
 class NpcDialog extends StatefulWidget {
   final Function(Npc npc) onCreate;

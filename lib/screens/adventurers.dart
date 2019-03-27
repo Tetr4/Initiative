@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:initiative/model/group.dart';
-import 'package:initiative/model/participant.dart';
+import 'package:initiative/model/data.dart';
 import 'package:initiative/screens/dialogs/create_adventurer.dart';
 
 class AdventurersScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add adventurers')),
+      appBar: AppBar(title: Text('Edit ${widget.group.name}')),
       body: ListView.builder(
         itemCount: adventurers.length,
         itemBuilder: _buildAdventurerItem,

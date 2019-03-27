@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:initiative/model/group.dart';
+import 'package:initiative/model/data.dart';
 
 class GroupDialog extends StatefulWidget {
   final Function(Group group) onCreate;

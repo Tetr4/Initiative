@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:initiative/model/participant.dart';
+import 'package:initiative/model/data.dart';
 
 class AdventurerDialog extends StatefulWidget {
   final Function(Adventurer adventurer) onCreate;

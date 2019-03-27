@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:initiative/model/group.dart';
-import 'package:initiative/model/participant.dart';
+import 'package:initiative/model/battle.dart';
+import 'package:initiative/model/data.dart';
 import 'package:initiative/screens/dialogs/create_npc.dart';
 import 'package:initiative/screens/dialogs/roll_initiative.dart';
 import 'package:initiative/screens/groups.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class BattleScreen extends StatefulWidget {
   @override
@@ -12,25 +13,9 @@ class BattleScreen extends StatefulWidget {
 }
 
 class _BattleScreenState extends State<BattleScreen> {
-  final List<Participant> participants = [];
   final List<Participant> initiativeUndetermined = [];
   final Map<Participant, int> initiatives = Map();
-
-  _addGroup(Group group) => setState(() {
-        participants.addAll(group.adventurers);
-      });
-
-  _removeParticipant(Participant participant) => setState(() {
-        participants.remove(participant);
-      });
-
-  _addParticipants(participant) => setState(() {
-        participants.add(participant);
-      });
-
-  _addParticipant(Participant participant, int index) => setState(() {
-        participants.insert(index, participant);
-      });
+  BattleModel battle;
 
   _selectGroup(BuildContext context) async {
     final Group group = await Navigator.push(
@@ -41,36 +26,26 @@ class _BattleScreenState extends State<BattleScreen> {
       ),
     );
     if (group != null) {
-      _addGroup(group);
+      battle.addGroup(group);
     }
   }
 
-  _onReorder(int oldIndex, int newIndex) => setState(() {
-        if (newIndex > oldIndex) {
-          newIndex -= 1;
-        }
-        final Participant item = participants.removeAt(oldIndex);
-        participants.insert(newIndex, item);
-      });
-
-  void _reorderByInitiative(Map<Participant, int> initiatives) => setState(() {
-        participants.sort((a, b) => initiatives[b].compareTo(initiatives[a]));
-      });
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Battle'),
-        actions: participants.isEmpty ? [] : [_buildInitiativeButton(context)],
-      ),
-      body: participants.isEmpty
-          ? _buildEmptyState()
-          : Scrollbar(
-              child: Builder(builder: _buildParticipantList),
-            ),
-      floatingActionButton: _buildAddParticipantButton(context),
-    );
+    return ScopedModelDescendant<BattleModel>(
+        builder: (context, child, battle) {
+      this.battle = battle;
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Battle'),
+          actions: battle.isActive ? [_buildInitiativeButton(context)] : [],
+        ),
+        body: battle.isActive
+            ? Scrollbar(child: Builder(builder: _buildParticipantList))
+            : _buildEmptyState(),
+        floatingActionButton: _buildAddParticipantButton(context),
+      );
+    });
   }
 
   Widget _buildInitiativeButton(BuildContext context) {
@@ -80,7 +55,7 @@ class _BattleScreenState extends State<BattleScreen> {
       onPressed: () {
         initiatives.clear();
         initiativeUndetermined.clear();
-        initiativeUndetermined.addAll(this.participants);
+        initiativeUndetermined.addAll(battle.participants);
         _showNextInitiativeDialog();
       },
     );
@@ -99,7 +74,7 @@ class _BattleScreenState extends State<BattleScreen> {
           onTap: () => showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    NpcDialog(onCreate: _addParticipants),
+                    NpcDialog(onCreate: battle.addNpc),
               ),
         ),
         SpeedDialChild(
@@ -148,15 +123,15 @@ class _BattleScreenState extends State<BattleScreen> {
 
   Widget _buildParticipantList(BuildContext context) {
     return ReorderableListView(
-      onReorder: _onReorder,
+      onReorder: battle.reorder,
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      children: participants
+      children: battle.participants
           .map((participant) => LineupItem(
                 key: ObjectKey(participant),
                 participant: participant,
                 onDismissed: (direction) {
-                  final index = participants.indexOf(participant);
-                  _removeParticipant(participant);
+                  final index = battle.participants.indexOf(participant);
+                  battle.removeParticipant(participant);
                   _showUndoBar(context, participant, index);
                 },
               ))
@@ -169,14 +144,14 @@ class _BattleScreenState extends State<BattleScreen> {
       content: Text("${participant.name} removed"),
       action: SnackBarAction(
         label: "undo",
-        onPressed: () => _addParticipant(participant, index),
+        onPressed: () => battle.addParticipant(participant, index),
       ),
     ));
   }
 
   void _showNextInitiativeDialog() {
     if (initiativeUndetermined.isEmpty) {
-      _reorderByInitiative(initiatives);
+      battle.reorderByInitiative(initiatives);
     } else {
       final participant = initiativeUndetermined.removeAt(0);
       showDialog(

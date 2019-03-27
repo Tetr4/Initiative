@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:initiative/model/group.dart';
-import 'package:initiative/model/participant.dart';
+import 'package:initiative/model/data.dart';
 import 'package:initiative/screens/adventurers.dart';
 import 'package:initiative/screens/dialogs/create_group.dart';
 

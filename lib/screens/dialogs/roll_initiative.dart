@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:initiative/model/participant.dart';
+import 'package:initiative/model/data.dart';
 
 class InitiativeDialog extends StatefulWidget {
   final Participant participant;
