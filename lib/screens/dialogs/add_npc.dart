@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
 
 class NpcDialog extends StatefulWidget {
-  final Function(Npc npc) onCreate;
+  final Function(Character npc) onCreate;
 
   NpcDialog({Key key, @required this.onCreate}) : super(key: key);
 
@@ -45,7 +45,8 @@ class _NpcDialogState extends State<NpcDialog> {
         if (_formKey.currentState.validate()) {
           final name = _nameKey.currentState.value;
           Navigator.of(context).pop();
-          widget.onCreate(Npc(name));
+          final npc = Character(name, null, CharacterType.NPC);
+          widget.onCreate(npc);
         }
       },
     );

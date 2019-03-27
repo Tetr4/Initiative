@@ -56,7 +56,7 @@ class GroupsScreen extends StatelessWidget {
   ) {
     return ListTile(
       title: Text(group.name),
-      subtitle: Text('${group.adventurers.length} adventurers'),
+      subtitle: Text('${group.members.length} adventurers'),
       onLongPress: () => onEdit(index),
       onTap: () => onSelected(group),
     );

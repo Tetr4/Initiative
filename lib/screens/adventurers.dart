@@ -16,21 +16,21 @@ class AdventurersScreen extends StatelessWidget {
       final group = groups.items[groupIndex];
       return Scaffold(
         appBar: AppBar(title: Text('Edit ${group.name}')),
-        body: _buildAdventurerList(group.adventurers),
-        floatingActionButton: _buildCreateAdventurerButton(context,
-            (adventurer) => groups.addAdventurer(groupIndex, adventurer)),
+        body: _buildAdventurerList(group.members),
+        floatingActionButton: _buildCreateAdventurerButton(
+            context, (adventurer) => groups.addMember(groupIndex, adventurer)),
       );
     });
   }
 
-  _buildAdventurerList(List<Adventurer> adventurers) {
+  _buildAdventurerList(List<Character> adventurers) {
     return ListView.builder(
       itemCount: adventurers.length,
       itemBuilder: (context, index) => _buildAdventurerItem(adventurers[index]),
     );
   }
 
-  Widget _buildAdventurerItem(Adventurer adventurer) {
+  Widget _buildAdventurerItem(Character adventurer) {
     return ListTile(
       title: Text(adventurer.name),
       subtitle: Text(adventurer.description),
@@ -38,7 +38,7 @@ class AdventurersScreen extends StatelessWidget {
   }
 
   FloatingActionButton _buildCreateAdventurerButton(
-      BuildContext context, Function(Adventurer) onCreate) {
+      BuildContext context, Function(Character) onCreate) {
     return FloatingActionButton(
       onPressed: () => _showCreateAdventurerDialog(context, onCreate),
       tooltip: 'Add adventurer',
@@ -48,7 +48,7 @@ class AdventurersScreen extends StatelessWidget {
 
   _showCreateAdventurerDialog(
     BuildContext context,
-    Function(Adventurer) onCreate,
+    Function(Character) onCreate,
   ) =>
       showDialog(
         context: context,

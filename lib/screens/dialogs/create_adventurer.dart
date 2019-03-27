@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
 
 class AdventurerDialog extends StatefulWidget {
-  final Function(Adventurer adventurer) onCreate;
+  final Function(Character adventurer) onCreate;
 
   AdventurerDialog({Key key, @required this.onCreate}) : super(key: key);
 
@@ -62,7 +62,9 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
           final name = _nameKey.currentState.value;
           final description = _descriptionKey.currentState.value;
           Navigator.of(context).pop();
-          widget.onCreate(Adventurer(name, description));
+          final adventurer =
+              Character(name, description, CharacterType.ADVENTURER);
+          widget.onCreate(adventurer);
         }
       },
     );

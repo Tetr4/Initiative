@@ -4,41 +4,37 @@ import 'package:initiative/model/data.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class BattleModel extends Model {
-  final List<Participant> _participants = [];
+  final List<Character> _participants = [];
 
-  UnmodifiableListView<Participant> get participants =>
+  UnmodifiableListView<Character> get participants =>
       UnmodifiableListView(_participants);
 
   bool get isActive {
     return participants.isNotEmpty;
   }
 
-  setParticipants(List<Participant> participants) {
-    _participants.clear();
-    _participants.addAll(participants);
-    notifyListeners();
-  }
+  Future loadData() async {}
 
   addGroup(Group group) {
-    for (final adventurer in group.adventurers) {
-      if (!participants.contains(adventurer)) {
-        _participants.add(adventurer);
+    for (final member in group.members) {
+      if (!participants.contains(member)) {
+        _participants.add(member);
       }
     }
     notifyListeners();
   }
 
-  removeParticipant(Participant participant) {
+  removeParticipant(Character participant) {
     _participants.remove(participant);
     notifyListeners();
   }
 
-  addNpc(Npc npc) {
-    _participants.add(npc);
+  addParticipant(Character participant) {
+    _participants.add(participant);
     notifyListeners();
   }
 
-  addParticipant(Participant participant, int index) {
+  addParticipantAt(Character participant, int index) {
     _participants.insert(index, participant);
     notifyListeners();
   }
@@ -47,12 +43,13 @@ class BattleModel extends Model {
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
-    final Participant item = _participants.removeAt(oldIndex);
-    _participants.insert(newIndex, item);
+    final Character participant = _participants.removeAt(oldIndex);
+    _participants.insert(newIndex, participant);
     notifyListeners();
   }
 
-  reorderByInitiative(Map<Participant, int> initiatives) {
+  reorderByInitiative(Map<Character, int> initiatives) {
+    // TODO Initiative type (roll, dex, 2nd roll) instead of int
     _participants.sort((a, b) => initiatives[b].compareTo(initiatives[a]));
     notifyListeners();
   }

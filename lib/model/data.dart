@@ -1,26 +1,31 @@
-class Participant {
+class Character {
   final String name;
-
-  Participant(this.name);
-}
-
-class Adventurer extends Participant {
   final String description;
+  final CharacterType type;
 
-  Adventurer(String name, this.description) : super(name);
+  Character(this.name, this.description, this.type);
+
+  Character.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        description = json['description'],
+        type = json['type'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'description': description,
+        'type': type,
+      };
 }
 
-class Npc extends Participant {
-  Npc(String name) : super(name);
-}
+enum CharacterType { ADVENTURER, NPC }
 
 class Group {
   final String name;
-  final List<Adventurer> adventurers;
+  final List<Character> members;
 
-  Group(this.name, this.adventurers);
+  Group(this.name, this.members);
 
-  Group copy(List<Adventurer> adventurers) {
-    return Group(this.name, adventurers);
+  Group copy(List<Character> newMembers) {
+    return Group(this.name, newMembers);
   }
 }

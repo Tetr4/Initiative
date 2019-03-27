@@ -6,20 +6,18 @@ import 'package:scoped_model/scoped_model.dart';
 class GroupsModel extends Model {
   final List<Group> _groups = [
     Group("Foobarion", [
-      Adventurer("Turweck", "Zwerg Magier"),
-      Adventurer("Raven", "Halbelf Schurke"),
-      Adventurer("Artemis", "Mensch Hexenmeister"),
-      Adventurer("Vincent", "Mensch Kleriker"),
-      Adventurer("Zarzuket", "Gnom Mentalist"),
+      Character("Turweck", "Zwerg Magier", CharacterType.ADVENTURER),
+      Character("Raven", "Halbelf Schurke", CharacterType.ADVENTURER),
+      Character("Artemis", "Mensch Hexenmeister", CharacterType.ADVENTURER),
+      Character("Vincent", "Mensch Kleriker", CharacterType.ADVENTURER),
+      Character("Zarzuket", "Gnom Mentalist", CharacterType.ADVENTURER),
     ])
   ];
 
   UnmodifiableListView<Group> get items => UnmodifiableListView(_groups);
 
-  setGroups(List<Group> groups) {
-    _groups.clear();
-    _groups.addAll(groups);
-    notifyListeners();
+  Future loadData() async {
+//    _jsonData = json.decode(await rootBundle.loadString('assets/words.json'));
   }
 
   add(Group group) {
@@ -42,12 +40,11 @@ class GroupsModel extends Model {
     notifyListeners();
   }
 
-  void addAdventurer(int groupIndex, Adventurer adventurer) {
+  void addMember(int groupIndex, Character newMember) {
     final Group oldGroup = _groups[groupIndex];
     // data is immutable, so we copy it
-    final adventurers = List<Adventurer>.from(oldGroup.adventurers)
-      ..add(adventurer);
-    final newGroup = oldGroup.copy(adventurers);
+    final members = List<Character>.from(oldGroup.members)..add(newMember);
+    final newGroup = oldGroup.copy(members);
     replace(oldGroup, newGroup);
   }
 }

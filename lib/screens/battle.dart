@@ -14,8 +14,8 @@ class BattleScreen extends StatefulWidget {
 }
 
 class _BattleScreenState extends State<BattleScreen> {
-  final List<Participant> initiativeUndetermined = [];
-  final Map<Participant, int> initiatives = Map();
+  final List<Character> initiativeUndetermined = [];
+  final Map<Character, int> initiatives = Map();
   BattleModel battle;
 
   _selectGroup(BuildContext context) async {
@@ -79,7 +79,7 @@ class _BattleScreenState extends State<BattleScreen> {
           onTap: () => showDialog(
                 context: context,
                 builder: (BuildContext context) =>
-                    NpcDialog(onCreate: battle.addNpc),
+                    NpcDialog(onCreate: battle.addParticipant),
               ),
         ),
 //        SpeedDialChild(
@@ -116,12 +116,12 @@ class _BattleScreenState extends State<BattleScreen> {
     );
   }
 
-  void _showUndoBar(BuildContext context, Participant participant, int index) {
+  void _showUndoBar(BuildContext context, Character participant, int index) {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text("${participant.name} removed"),
       action: SnackBarAction(
         label: "undo",
-        onPressed: () => battle.addParticipant(participant, index),
+        onPressed: () => battle.addParticipantAt(participant, index),
       ),
     ));
   }
@@ -179,7 +179,7 @@ class EmptyBattleBody extends StatelessWidget {
 }
 
 class LineupItem extends StatelessWidget {
-  final Participant participant;
+  final Character participant;
   final ConfirmDismissCallback onDismissed;
 
   LineupItem({
@@ -195,7 +195,7 @@ class LineupItem extends StatelessWidget {
       background: Container(color: Theme.of(context).primaryColor),
       key: ObjectKey(participant),
       onDismissed: onDismissed,
-      child: participant is Adventurer
+      child: participant.type == CharacterType.ADVENTURER
           ? ListTile(
               leading: Icon(Icons.face),
               title: Text(participant.name),
