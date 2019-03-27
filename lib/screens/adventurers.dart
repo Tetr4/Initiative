@@ -47,10 +47,11 @@ class AdventurersScreen extends StatelessWidget {
   }
 
   _showCreateAdventurerDialog(
-      BuildContext context, Function(Adventurer) onCreate) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AdventurerDialog(onCreate: onCreate),
-    );
-  }
+    BuildContext context,
+    Function(Adventurer) onCreate,
+  ) =>
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => AdventurerDialog(onCreate: onCreate),
+      );
 }
