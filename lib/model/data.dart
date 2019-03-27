@@ -14,12 +14,12 @@ class Character {
   Character.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         description = json['description'],
-        type = json['type'];
+        type = CharacterType.values[json['type']];
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'description': description,
-        'type': type,
+        'type': type.index,
       };
 }
 

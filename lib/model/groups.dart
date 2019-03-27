@@ -2,8 +2,11 @@ import 'dart:collection';
 
 import 'package:initiative/model/data.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GroupsModel extends Model {
+  final SharedPreferences prefs;
+
   final List<Group> _groups = [
     Group(name: "Foobarion", members: [
       Character(name: "Turweck", description: "Zwerg Magier"),
@@ -13,6 +16,8 @@ class GroupsModel extends Model {
       Character(name: "Zarzuket", description: "Gnom Mentalist"),
     ])
   ];
+
+  GroupsModel(this.prefs);
 
   UnmodifiableListView<Group> get items => UnmodifiableListView(_groups);
 

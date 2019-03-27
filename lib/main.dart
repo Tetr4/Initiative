@@ -3,11 +3,14 @@ import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/battle.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  final battle = BattleModel();
+void main() async {
+  final prefs = await SharedPreferences.getInstance();
+
+  final battle = BattleModel(prefs);
   battle.loadData();
-  final groups = GroupsModel();
+  final groups = GroupsModel(prefs);
   groups.loadData();
 
   runApp(
