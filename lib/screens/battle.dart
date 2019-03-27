@@ -3,7 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/data.dart';
 import 'package:initiative/model/groups.dart';
-import 'package:initiative/screens/dialogs/create_npc.dart';
+import 'package:initiative/screens/dialogs/add_npc.dart';
 import 'package:initiative/screens/dialogs/roll_initiative.dart';
 import 'package:initiative/screens/groups.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -82,12 +82,12 @@ class _BattleScreenState extends State<BattleScreen> {
                     NpcDialog(onCreate: battle.addNpc),
               ),
         ),
-        SpeedDialChild(
-          child: Icon(Icons.face),
-          backgroundColor: Colors.blue,
-          label: 'Adventurer',
-          onTap: () => print('SECOND CHILD'),
-        ),
+//        SpeedDialChild(
+//          child: Icon(Icons.face),
+//          backgroundColor: Colors.blue,
+//          label: 'Adventurer',
+//          onTap: () => print('SECOND CHILD'),
+//        ),
         SpeedDialChild(
           child: Icon(Icons.group),
           backgroundColor: Colors.green,
