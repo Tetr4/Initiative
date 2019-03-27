@@ -26,7 +26,6 @@ class _GroupsScreenState extends State<GroupsScreen> {
               model: groups,
               child: AdventurersScreen(groupIndex: index),
             ),
-        fullscreenDialog: true,
       ),
     );
   }

@@ -4,55 +4,53 @@ import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/dialogs/create_adventurer.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class AdventurersScreen extends StatefulWidget {
+class AdventurersScreen extends StatelessWidget {
   final int groupIndex;
 
   AdventurersScreen({Key key, @required this.groupIndex}) : super(key: key);
 
   @override
-  _AdventurersScreenState createState() => _AdventurersScreenState();
-}
-
-class _AdventurersScreenState extends State<AdventurersScreen> {
-  List<Adventurer> adventurers;
-  GroupsModel groups;
-
-  _addAdventurer(Adventurer adventurer) {
-    groups.addAdventurer(widget.groupIndex, adventurer);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<GroupsModel>(
         builder: (context, child, groups) {
-      this.groups = groups;
-      final group = groups.items[widget.groupIndex];
-      this.adventurers = group.adventurers;
+      final group = groups.items[groupIndex];
       return Scaffold(
         appBar: AppBar(title: Text('Edit ${group.name}')),
-        body: ListView.builder(
-          itemCount: adventurers.length,
-          itemBuilder: _buildAdventurerItem,
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    AdventurerDialog(onCreate: _addAdventurer),
-              ),
-          tooltip: 'Add adventurer',
-          child: Icon(Icons.add),
-        ),
+        body: _buildAdventurerList(group.adventurers),
+        floatingActionButton: _buildCreateAdventurerButton(context,
+            (adventurer) => groups.addAdventurer(groupIndex, adventurer)),
       );
     });
   }
 
-  Widget _buildAdventurerItem(context, index) {
-    final adventurer = adventurers[index];
+  _buildAdventurerList(List<Adventurer> adventurers) {
+    return ListView.builder(
+      itemCount: adventurers.length,
+      itemBuilder: (context, index) => _buildAdventurerItem(adventurers[index]),
+    );
+  }
+
+  Widget _buildAdventurerItem(Adventurer adventurer) {
     return ListTile(
       title: Text(adventurer.name),
       subtitle: Text(adventurer.description),
-//      onTap: () => Navigator.pop(context, groups[index]),
+    );
+  }
+
+  FloatingActionButton _buildCreateAdventurerButton(
+      BuildContext context, Function(Adventurer) onCreate) {
+    return FloatingActionButton(
+      onPressed: () => _showCreateAdventurerDialog(context, onCreate),
+      tooltip: 'Add adventurer',
+      child: Icon(Icons.add),
+    );
+  }
+
+  _showCreateAdventurerDialog(
+      BuildContext context, Function(Adventurer) onCreate) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AdventurerDialog(onCreate: onCreate),
     );
   }
 }
