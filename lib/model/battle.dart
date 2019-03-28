@@ -42,7 +42,9 @@ class BattleModel extends Model {
 
   addGroup(Group group) {
     for (final member in group.members) {
-      if (!participants.contains(member)) {
+      // only add members that are not participating
+      final contained = (participant) => participant.name == member.name;
+      if (!participants.any(contained)) {
         _participants.add(member);
       }
     }
