@@ -2,7 +2,12 @@
 
 # Initiative App
 
-Made with [Flutter](https://flutter.dev/).
+Cross-platform Android/iOS App for tracking combat initiative for the [Pathfinder Roleplaying Game](https://en.wikipedia.org/wiki/Pathfinder_Roleplaying_Game).
+
+Made with [Flutter](https://flutter.dev/) and focused on [Material Design](https://material.io/design/) + user experience.
+
+
+<br>
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/3826929/54956096-724a6680-4f4f-11e9-8077-9560031e5808.png" title="Landing" height="350" />
