@@ -40,8 +40,8 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
 
   TextFormField _buildInitiativeField() {
     return TextFormField(
-      autofocus: true,
       key: _initiativeKey,
+      autofocus: true,
       controller: _initiativeController,
       decoration: InputDecoration(labelText: "Initiative"),
       keyboardType: TextInputType.number,

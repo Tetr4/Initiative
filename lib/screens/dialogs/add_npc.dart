@@ -29,6 +29,7 @@ class _NpcDialogState extends State<NpcDialog> {
   TextFormField _buildNameField() {
     return TextFormField(
       key: _nameKey,
+      autofocus: true,
       decoration: InputDecoration(labelText: "Name"),
       validator: (text) {
         if (text.isEmpty) {

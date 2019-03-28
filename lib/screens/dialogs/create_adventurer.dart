@@ -33,6 +33,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
   TextFormField _buildNameField() {
     return TextFormField(
       key: _nameKey,
+      autofocus: true,
       decoration: InputDecoration(labelText: "Name"),
       validator: (text) {
         if (text.isEmpty) {

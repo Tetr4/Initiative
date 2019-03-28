@@ -29,6 +29,7 @@ class _GroupDialogState extends State<GroupDialog> {
   TextFormField _buildNameField() {
     return TextFormField(
       key: _nameKey,
+      autofocus: true,
       decoration: InputDecoration(labelText: "Name"),
       validator: (value) {
         if (value.isEmpty) {
