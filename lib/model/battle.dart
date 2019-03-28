@@ -9,8 +9,6 @@ class BattleModel extends Model {
   final SharedPreferences prefs;
   final List<Character> _participants = [];
 
-  BattleModel(this.prefs);
-
   UnmodifiableListView<Character> get participants =>
       UnmodifiableListView(_participants);
 
@@ -18,19 +16,28 @@ class BattleModel extends Model {
     return participants.isNotEmpty;
   }
 
+  BattleModel(this.prefs);
+
   Future loadData() async {
     _participants.clear();
     final pref = prefs.getString("Battle");
     if (pref != null) {
-      final List items = jsonDecode(pref);
-      final List<Character> loadedParticipants =
-          items.map((item) => Character.fromJson(item)).toList();
-      _participants.addAll(loadedParticipants);
+      final Map json = jsonDecode(pref);
+      final battleGroup = Group.fromJson(json);
+      _participants.addAll(battleGroup.members);
       notifyListeners();
     }
+    // auto save
+    removeListener(saveData);
+    addListener(saveData);
+  }
 
-    // TODO skip first set?
-    addListener(() => prefs.setString("Battle", jsonEncode(_participants)));
+  saveData() async {
+    final battleGroup = Group(
+      name: "Battle",
+      members: _participants,
+    );
+    prefs.setString("Battle", jsonEncode(battleGroup));
   }
 
   addGroup(Group group) {

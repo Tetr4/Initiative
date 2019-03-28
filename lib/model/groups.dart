@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:initiative/model/data.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -6,24 +7,37 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class GroupsModel extends Model {
   final SharedPreferences prefs;
-
-  final List<Group> _groups = [
-    Group(name: "Foobarion", members: [
-      Character(name: "Turweck", description: "Zwerg Magier"),
-      Character(name: "Raven", description: "Halbelf Schurke"),
-      Character(name: "Artemis", description: "Mensch Hexenmeister"),
-      Character(name: "Vincent", description: "Mensch Kleriker"),
-      Character(name: "Zarzuket", description: "Gnom Mentalist"),
-    ])
-  ];
-
-  GroupsModel(this.prefs);
+  final List<Group> _groups = [];
 
   UnmodifiableListView<Group> get items => UnmodifiableListView(_groups);
 
+  GroupsModel(this.prefs);
+
   Future loadData() async {
-//    _jsonData = json.decode(await rootBundle.loadString('assets/words.json'));
+    _groups.clear();
+    final pref = prefs.getString("Groups");
+    if (pref != null) {
+      final List json = jsonDecode(pref);
+      final List<Group> groups =
+          json.map((item) => Group.fromJson(item)).toList();
+      _groups.addAll(groups);
+    } else {
+      // default group
+      _groups.add(Group(name: "Foobarion", members: [
+        Character(name: "Turweck", description: "Zwerg Magier"),
+        Character(name: "Raven", description: "Halbelf Schurke"),
+        Character(name: "Artemis", description: "Mensch Hexenmeister"),
+        Character(name: "Vincent", description: "Mensch Kleriker"),
+        Character(name: "Zarzuket", description: "Gnom Mentalist"),
+      ]));
+    }
+    notifyListeners();
+    // auto save
+    removeListener(saveData);
+    addListener(saveData);
   }
+
+  saveData() async => prefs.setString("Groups", jsonEncode(_groups));
 
   add(Group group) {
     _groups.add(group);

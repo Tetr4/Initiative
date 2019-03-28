@@ -31,6 +31,17 @@ class Group {
 
   Group({@required this.name, this.members = const []});
 
+  Group.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        members = (json['members'] as List)
+            .map((item) => Character.fromJson(item))
+            .toList();
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'members': members,
+      };
+
   Group copy(List<Character> newMembers) =>
       Group(name: this.name, members: newMembers);
 }
