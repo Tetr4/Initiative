@@ -17,7 +17,7 @@ class _NpcDialogState extends State<NpcDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("New NPC"),
+      title: Text("Add NPC"),
       content: Form(
         key: _formKey,
         child: _buildNameField(), // TODO count field?
