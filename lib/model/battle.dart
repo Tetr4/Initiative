@@ -1,12 +1,9 @@
 import 'dart:collection';
-import 'dart:convert';
 
 import 'package:initiative/model/data.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BattleModel extends Model {
-  final SharedPreferences prefs;
   final List<Character> _participants = [];
 
   UnmodifiableListView<Character> get participants =>
@@ -16,28 +13,10 @@ class BattleModel extends Model {
     return participants.isNotEmpty;
   }
 
-  BattleModel(this.prefs);
-
-  Future loadData() async {
+  setParticipants(List<Character> list) {
     _participants.clear();
-    final pref = prefs.getString("Battle");
-    if (pref != null) {
-      final Map json = jsonDecode(pref);
-      final battleGroup = Group.fromJson(json);
-      _participants.addAll(battleGroup.members);
-      notifyListeners();
-    }
-    // auto save
-    removeListener(saveData);
-    addListener(saveData);
-  }
-
-  saveData() async {
-    final battleGroup = Group(
-      name: "Battle",
-      members: _participants,
-    );
-    prefs.setString("Battle", jsonEncode(battleGroup));
+    _participants.addAll(list);
+    notifyListeners();
   }
 
   addGroup(Group group) {
