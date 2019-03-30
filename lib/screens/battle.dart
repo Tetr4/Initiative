@@ -120,7 +120,7 @@ class _BattleScreenState extends State<BattleScreen> {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text("${participant.name} removed"),
       action: SnackBarAction(
-        label: "undo",
+        label: "UNDO",
         onPressed: () => battle.addParticipantAt(participant, index),
       ),
     ));
