@@ -176,29 +176,43 @@ class EmptyBattleBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 64),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/battle_swords.png',
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.center,
-          ),
-          Padding(
-              padding: EdgeInsets.only(top: 32, bottom: 16),
-              child: Text(
-                'No active battle.',
-                style: Theme.of(context).textTheme.title,
-              )),
-          Text(
-            'Add participants to start the battle.',
-            style: Theme.of(context).textTheme.subtitle,
-          )
-        ],
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(64),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(flex: 80, child: _buildLogo()),
+            Padding(
+              padding: EdgeInsets.only(top: 16, bottom: 16),
+              child: _buildText(context),
+            ),
+            Expanded(flex: 20, child: _buildSubText(context)),
+          ],
+        ),
       ),
+    );
+  }
+
+  Image _buildLogo() {
+    return Image.asset(
+      'assets/battle_swords.png',
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.center,
+    );
+  }
+
+  Text _buildText(BuildContext context) {
+    return Text(
+      'No active battle.',
+      style: Theme.of(context).textTheme.title,
+    );
+  }
+
+  Text _buildSubText(BuildContext context) {
+    return Text(
+      'Add participants to start the battle.',
+      style: Theme.of(context).textTheme.subtitle,
     );
   }
 }
