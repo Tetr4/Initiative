@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
 
 class GroupDialog extends StatefulWidget {
-  final Function(Group group) onCreate;
+  final void Function(Group group) onCreate;
 
   GroupDialog({Key key, @required this.onCreate}) : super(key: key);
 

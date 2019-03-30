@@ -8,22 +8,22 @@ class GroupsModel extends Model {
 
   UnmodifiableListView<Group> get items => UnmodifiableListView(_groups);
 
-  addItems(List<Group> groups) {
+  void addItems(List<Group> groups) {
     _groups.addAll(groups);
     notifyListeners();
   }
 
-  add(Group group) {
+  void add(Group group) {
     _groups.add(group);
     notifyListeners();
   }
 
-  remove(Group group) {
+  void remove(Group group) {
     _groups.remove(group);
     notifyListeners();
   }
 
-  replace(Group oldGroup, Group newGroup) {
+  void replace(Group oldGroup, Group newGroup) {
     final groupIndex = _groups.indexOf(oldGroup);
     if (groupIndex == -1) {
       _groups.add(newGroup);
@@ -40,4 +40,6 @@ class GroupsModel extends Model {
     final newGroup = oldGroup.copy(members);
     replace(oldGroup, newGroup);
   }
+
+  int indexOf(Group group) => _groups.indexOf(group);
 }

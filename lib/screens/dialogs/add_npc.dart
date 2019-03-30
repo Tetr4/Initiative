@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
 
 class NpcDialog extends StatefulWidget {
-  final Function(Character npc) onCreate;
+  final void Function(Character npc) onCreate;
 
   NpcDialog({Key key, @required this.onCreate}) : super(key: key);
 

@@ -5,7 +5,7 @@ import 'package:initiative/model/data.dart';
 
 class InitiativeDialog extends StatefulWidget {
   final Character participant;
-  final Function(int initiative) onRolled;
+  final void Function(int initiative) onRolled;
 
   InitiativeDialog({
     Key key,

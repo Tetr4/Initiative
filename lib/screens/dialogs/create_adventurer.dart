@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
 
 class AdventurerDialog extends StatefulWidget {
-  final Function(Character adventurer) onCreate;
+  final void Function(Character adventurer) onCreate;
 
   AdventurerDialog({Key key, @required this.onCreate}) : super(key: key);
 

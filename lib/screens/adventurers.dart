@@ -18,12 +18,14 @@ class AdventurersScreen extends StatelessWidget {
         appBar: AppBar(title: Text('Edit ${group.name}')),
         body: _buildAdventurerList(group.members),
         floatingActionButton: _buildCreateAdventurerButton(
-            context, (adventurer) => groups.addMember(groupIndex, adventurer)),
+          context,
+          (adventurer) => groups.addMember(groupIndex, adventurer),
+        ),
       );
     });
   }
 
-  _buildAdventurerList(List<Character> adventurers) {
+  Widget _buildAdventurerList(List<Character> adventurers) {
     return ListView.builder(
       itemCount: adventurers.length,
       itemBuilder: (context, index) => _buildAdventurerItem(adventurers[index]),
@@ -38,7 +40,7 @@ class AdventurersScreen extends StatelessWidget {
   }
 
   FloatingActionButton _buildCreateAdventurerButton(
-      BuildContext context, Function(Character) onCreate) {
+      BuildContext context, void Function(Character) onCreate) {
     return FloatingActionButton(
       onPressed: () => _showCreateAdventurerDialog(context, onCreate),
       tooltip: 'Add adventurer',
@@ -46,12 +48,11 @@ class AdventurersScreen extends StatelessWidget {
     );
   }
 
-  _showCreateAdventurerDialog(
-    BuildContext context,
-    Function(Character) onCreate,
-  ) =>
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AdventurerDialog(onCreate: onCreate),
-      );
+  void _showCreateAdventurerDialog(
+      BuildContext context, void Function(Character) onCreate) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AdventurerDialog(onCreate: onCreate),
+    );
+  }
 }

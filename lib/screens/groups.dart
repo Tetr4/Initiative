@@ -6,7 +6,7 @@ import 'package:initiative/screens/dialogs/create_group.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class GroupsScreen extends StatelessWidget {
-  _editGroup(BuildContext context, int index) {
+  void _editGroup(BuildContext context, int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -33,10 +33,10 @@ class GroupsScreen extends StatelessWidget {
     });
   }
 
-  _buildGroupsList(
+  Widget _buildGroupsList(
     List<Group> groups,
-    Function(int index) onEdit,
-    Function(Group) onSelected,
+    void Function(int index) onEdit,
+    void Function(Group) onSelected,
   ) {
     return ListView.builder(
       itemCount: groups.length,
@@ -48,8 +48,8 @@ class GroupsScreen extends StatelessWidget {
   Widget _buildGroupItem(
     Group group,
     int index,
-    Function(int index) onEdit,
-    Function(Group) onSelected,
+    void Function(int index) onEdit,
+    void Function(Group) onSelected,
   ) {
     return ListTile(
       leading: Icon(Icons.group),
@@ -61,7 +61,7 @@ class GroupsScreen extends StatelessWidget {
   }
 
   Widget _buildCreateGroupButton(
-      BuildContext context, Function(Group) onCreate) {
+      BuildContext context, void Function(Group) onCreate) {
     return FloatingActionButton(
       onPressed: () => _showCreateGroupDialog(context, onCreate),
       tooltip: 'New group',
@@ -69,9 +69,11 @@ class GroupsScreen extends StatelessWidget {
     );
   }
 
-  _showCreateGroupDialog(BuildContext context, Function(Group) onCreate) =>
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => GroupDialog(onCreate: onCreate),
-      );
+  void _showCreateGroupDialog(
+      BuildContext context, void Function(Group) onCreate) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => GroupDialog(onCreate: onCreate),
+    );
+  }
 }

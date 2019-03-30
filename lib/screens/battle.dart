@@ -17,7 +17,7 @@ class _BattleScreenState extends State<BattleScreen> {
   final Map<Character, int> initiatives = Map();
   BattleModel battle;
 
-  _selectGroup(BuildContext context) async {
+  Future<void> _selectGroup(BuildContext context) async {
     final Group group = await Navigator.push(
       context,
       MaterialPageRoute(

@@ -13,12 +13,12 @@ class BattleModel extends Model {
     return participants.isNotEmpty;
   }
 
-  addParticipants(List<Character> list) {
+  void addParticipants(List<Character> list) {
     _participants.addAll(list);
     notifyListeners();
   }
 
-  addGroup(Group group) {
+  void addGroup(Group group) {
     for (final member in group.members) {
       // only add members that are not participating
       final contained = (participant) => participant.name == member.name;
@@ -29,22 +29,22 @@ class BattleModel extends Model {
     notifyListeners();
   }
 
-  removeParticipant(Character participant) {
+  void removeParticipant(Character participant) {
     _participants.remove(participant);
     notifyListeners();
   }
 
-  addParticipant(Character participant) {
+  void addParticipant(Character participant) {
     _participants.add(participant);
     notifyListeners();
   }
 
-  addParticipantAt(Character participant, int index) {
+  void addParticipantAt(Character participant, int index) {
     _participants.insert(index, participant);
     notifyListeners();
   }
 
-  reorder(int oldIndex, int newIndex) {
+  void reorder(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
@@ -53,13 +53,13 @@ class BattleModel extends Model {
     notifyListeners();
   }
 
-  reorderByInitiative(Map<Character, int> initiatives) {
+  void reorderByInitiative(Map<Character, int> initiatives) {
     // TODO Initiative type (roll, dex, 2nd roll) instead of int
     _participants.sort((a, b) => initiatives[b].compareTo(initiatives[a]));
     notifyListeners();
   }
 
-  clear() {
+  void clear() {
     _participants.clear();
     notifyListeners();
   }
