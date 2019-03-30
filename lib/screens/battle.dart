@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/data.dart';
-import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/dialogs/add_npc.dart';
 import 'package:initiative/screens/dialogs/roll_initiative.dart';
 import 'package:initiative/screens/groups.dart';
@@ -19,14 +18,10 @@ class _BattleScreenState extends State<BattleScreen> {
   BattleModel battle;
 
   _selectGroup(BuildContext context) async {
-    final groups = ScopedModel.of<GroupsModel>(context);
     final Group group = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ScopedModel<GroupsModel>(
-              model: groups,
-              child: GroupsScreen(),
-            ),
+        builder: (context) => GroupsScreen(),
         fullscreenDialog: true,
       ),
     );

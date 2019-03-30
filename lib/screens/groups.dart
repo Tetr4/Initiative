@@ -6,14 +6,11 @@ import 'package:initiative/screens/dialogs/create_group.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class GroupsScreen extends StatelessWidget {
-  _editGroup(BuildContext context, GroupsModel groups, int index) {
+  _editGroup(BuildContext context, int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ScopedModel<GroupsModel>(
-              model: groups,
-              child: AdventurersScreen(groupIndex: index),
-            ),
+        builder: (context) => AdventurersScreen(groupIndex: index),
       ),
     );
   }
@@ -22,7 +19,7 @@ class GroupsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<GroupsModel>(
         builder: (context, child, groups) {
-      final onEdit = (int index) => _editGroup(context, groups, index);
+      final onEdit = (int index) => _editGroup(context, index);
       final onSelected = (Group group) => Navigator.pop(context, group);
       final onCreate = (Group group) {
         groups.add(group);
