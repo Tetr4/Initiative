@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/data.dart';
-import 'package:initiative/screens/dialogs/add_npc.dart';
-import 'package:initiative/screens/dialogs/roll_initiative.dart';
+import 'package:initiative/screens/dialogs/npc.dart';
+import 'package:initiative/screens/dialogs/initiative.dart';
 import 'package:initiative/screens/groups.dart';
 import 'package:scoped_model/scoped_model.dart';
 

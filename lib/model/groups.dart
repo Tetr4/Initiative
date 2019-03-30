@@ -41,12 +41,37 @@ class GroupsModel extends Model {
   }
 
   void addMember(int groupIndex, Character newMember) {
-    final Group oldGroup = _groups[groupIndex];
-    // data is immutable, so we copy it
-    final members = List<Character>.from(oldGroup.members)..add(newMember);
-    final newGroup = oldGroup.copy(members);
-    replace(oldGroup, newGroup);
+    final Group group = _groups[groupIndex];
+    final members = group.members.toList()..add(newMember);
+    replace(group, group.copy(members));
   }
 
-  int indexOf(Group group) => _groups.indexOf(group);
+  void replaceMember(int groupIndex, Character oldMember, Character newMember) {
+    final Group group = _groups[groupIndex];
+    final memberIndex = group.members.indexOf(oldMember);
+    if (memberIndex == -1) {
+      addMember(groupIndex, newMember);
+    } else {
+      final newMembers = group.members.toList();
+      newMembers.setAll(memberIndex, [newMember]);
+      replace(group, group.copy(newMembers));
+    }
+  }
+
+  void removeMembers(int groupIndex, List<Character> selectedAdventurers) {
+    final Group group = _groups[groupIndex];
+    final newMembers = group.members.toList();
+    for (final adventurer in selectedAdventurers) {
+      newMembers.remove(adventurer);
+    }
+    replace(group, group.copy(newMembers));
+  }
+
+  void addAllMembers(int groupIndex, Map<Character, int> membersAndIndices) {
+    final Group group = _groups[groupIndex];
+    final newMembers = group.members.toList();
+    membersAndIndices
+        .forEach((member, index) => newMembers.insert(index, member));
+    replace(group, group.copy(newMembers));
+  }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
 import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/adventurers.dart';
-import 'package:initiative/screens/dialogs/create_group.dart';
+import 'package:initiative/screens/dialogs/group.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class GroupsScreen extends StatefulWidget {
@@ -36,7 +36,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
 
   void _editGroup(BuildContext context, Group group) {
     deselectAll();
-    final index = _groups.indexOf(group);
+    final index = _groups.items.indexOf(group);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -98,7 +98,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
       onPressed: () {
         final Map<Group, int> groupsAndIndices = Map.fromIterable(
             selectedGroups,
-            value: (group) => _groups.indexOf(group));
+            value: (group) => _groups.items.indexOf(group));
         _groups.removeAll(selectedGroups);
         _showUndoRemoveBar(context, groupsAndIndices);
       },

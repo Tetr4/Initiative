@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:initiative/model/data.dart';
 
 class AdventurerDialog extends StatefulWidget {
-  final void Function(Character adventurer) onCreate;
+  final void Function(Character adventurer) onSave;
+  final Character adventurer;
 
-  AdventurerDialog({Key key, @required this.onCreate}) : super(key: key);
+  AdventurerDialog({
+    Key key,
+    @required this.onSave,
+    this.adventurer,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _AdventurerDialogState();
@@ -15,10 +20,13 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
   final _nameKey = GlobalKey<FormFieldState<String>>();
   final _descriptionKey = GlobalKey<FormFieldState<String>>();
 
+  Character get adventurer => widget.adventurer;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("New adventurer"),
+      title:
+          Text(adventurer != null ? "Edit ${adventurer.name}" : "Add member"),
       content: Form(
         key: _formKey,
         child: Column(
@@ -35,6 +43,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
       key: _nameKey,
       autofocus: true,
       decoration: InputDecoration(labelText: "Name"),
+      initialValue: adventurer?.name,
       validator: (text) {
         if (text.isEmpty) {
           return 'Please enter a name';
@@ -47,6 +56,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
     return TextFormField(
       key: _descriptionKey,
       decoration: InputDecoration(labelText: "Description"),
+      initialValue: adventurer?.description,
       validator: (text) {
         if (text.isEmpty) {
           return 'Please enter a description';
@@ -57,7 +67,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
 
   FlatButton _buildCreateButton(BuildContext context) {
     return FlatButton(
-      child: new Text("Create"),
+      child: new Text(adventurer != null ? "Save" : "Create"),
       onPressed: () {
         if (_formKey.currentState.validate()) {
           final adventurer = Character(
@@ -65,7 +75,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
             description: _descriptionKey.currentState.value,
           );
           Navigator.of(context).pop();
-          widget.onCreate(adventurer);
+          widget.onSave(adventurer);
         }
       },
     );
