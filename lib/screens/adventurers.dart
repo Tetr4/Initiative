@@ -34,6 +34,7 @@ class AdventurersScreen extends StatelessWidget {
 
   Widget _buildAdventurerItem(Character adventurer) {
     return ListTile(
+      leading: CircleAvatar(child: Icon(Icons.face)),
       title: Text(adventurer.name),
       subtitle: Text(adventurer.description),
     );

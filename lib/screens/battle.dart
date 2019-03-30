@@ -222,13 +222,13 @@ class LineupItem extends StatelessWidget {
       onDismissed: onDismissed,
       child: participant.type == CharacterType.ADVENTURER
           ? ListTile(
-              leading: Icon(Icons.face),
+              leading: CircleAvatar(child: Icon(Icons.face)),
               title: Text(participant.name),
               subtitle: Text(participant.description),
               trailing: Icon(Icons.drag_handle),
             )
           : ListTile(
-              leading: Icon(Icons.bug_report),
+              leading: CircleAvatar(child: Icon(Icons.bug_report)),
               title: Text(participant.name),
               trailing: Icon(Icons.drag_handle),
             ),
