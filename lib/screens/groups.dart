@@ -14,16 +14,15 @@ class _GroupsScreenState extends State<GroupsScreen> {
   GroupsModel _groups;
   Map<Group, bool> selection = Map();
   List<Group> selectedGroups;
-  bool isSelecting;
+
+  bool get isSelecting => selectedGroups.length > 0;
+
+  bool isSelected(group) => selection[group] == true;
 
   void _initState(GroupsModel groups) {
     _groups = groups;
-    selection = Map.fromIterable(
-      groups.items,
-      value: (group) => isSelected(group), // keep state
-    );
+    selection = Map.fromIterable(groups.items, value: isSelected); // keep state
     selectedGroups = selection.keys.where(isSelected).toList();
-    isSelecting = selectedGroups.length > 0;
   }
 
   void toggleSelection(Group group) => setState(() {
@@ -31,8 +30,6 @@ class _GroupsScreenState extends State<GroupsScreen> {
       });
 
   void deselectAll() => setState(() => selection.clear());
-
-  bool isSelected(Group group) => selection[group] == true;
 
   void _editGroup(BuildContext context, Group group) {
     deselectAll();
@@ -96,11 +93,10 @@ class _GroupsScreenState extends State<GroupsScreen> {
       icon: Icon(Icons.delete),
       tooltip: "Delete",
       onPressed: () {
-        final Map<Group, int> groupsAndIndices = Map.fromIterable(
-            selectedGroups,
+        final Map<Group, int> groupToIndex = Map.fromIterable(selectedGroups,
             value: (group) => _groups.items.indexOf(group));
         _groups.removeAll(selectedGroups);
-        _showUndoRemoveBar(context, groupsAndIndices);
+        _showUndoBar(context, groupToIndex);
       },
     );
   }
@@ -148,15 +144,14 @@ class _GroupsScreenState extends State<GroupsScreen> {
     );
   }
 
-  void _showUndoRemoveBar(
-      BuildContext context, Map<Group, int> groupsAndIndices) {
+  void _showUndoBar(BuildContext context, Map<Group, int> groupToIndex) {
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(groupsAndIndices.length == 1
-          ? "${groupsAndIndices.keys.first.name} deleted"
-          : "${groupsAndIndices.length} groups deleted"),
+      content: Text(groupToIndex.length == 1
+          ? "${groupToIndex.keys.first.name} deleted"
+          : "${groupToIndex.length} groups deleted"),
       action: SnackBarAction(
         label: "UNDO",
-        onPressed: () => _groups.addAll(groupsAndIndices),
+        onPressed: () => _groups.addAll(groupToIndex),
       ),
     ));
   }

@@ -18,8 +18,8 @@ class GroupsModel extends Model {
     notifyListeners();
   }
 
-  void addAll(Map<Group, int> groupsAndIndices) {
-    groupsAndIndices.forEach((group, index) => _groups.insert(index, group));
+  void addAll(Map<Group, int> groupToIndex) {
+    groupToIndex.forEach((group, index) => _groups.insert(index, group));
     notifyListeners();
   }
 
@@ -67,11 +67,10 @@ class GroupsModel extends Model {
     replace(group, group.copy(newMembers));
   }
 
-  void addAllMembers(int groupIndex, Map<Character, int> membersAndIndices) {
+  void addAllMembers(int groupIndex, Map<Character, int> memberToIndex) {
     final Group group = _groups[groupIndex];
     final newMembers = group.members.toList();
-    membersAndIndices
-        .forEach((member, index) => newMembers.insert(index, member));
+    memberToIndex.forEach((member, index) => newMembers.insert(index, member));
     replace(group, group.copy(newMembers));
   }
 }

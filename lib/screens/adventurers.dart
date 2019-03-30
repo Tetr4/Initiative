@@ -19,17 +19,16 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
   Group group;
   Map<Character, bool> selection = Map();
   List<Character> selectedAdventurers;
-  bool isSelecting;
+
+  bool get isSelecting => selectedAdventurers.length > 0;
+
+  bool isSelected(adventurer) => selection[adventurer] == true;
 
   void _initState(GroupsModel groups) {
     _groups = groups;
     group = groups.items[widget.groupIndex];
-    selection = Map.fromIterable(
-      group.members,
-      value: (adventurer) => isSelected(adventurer), // keep state
-    );
+    selection = Map.fromIterable(group.members, value: isSelected);
     selectedAdventurers = selection.keys.where(isSelected).toList();
-    isSelecting = selectedAdventurers.length > 0;
   }
 
   void toggleSelection(Character adventurer) => setState(() {
@@ -37,8 +36,6 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
       });
 
   void deselectAll() => setState(() => selection.clear());
-
-  bool isSelected(Character adventurer) => selection[adventurer] == true;
 
   Future<bool> _onBackPressed() {
     if (isSelecting) {
@@ -95,11 +92,11 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
       icon: Icon(Icons.delete),
       tooltip: "Delete",
       onPressed: () {
-        final Map<Character, int> membersAndIndices = Map.fromIterable(
+        final Map<Character, int> memberToIndex = Map.fromIterable(
             selectedAdventurers,
             value: (adventurer) => group.members.indexOf(adventurer));
         _groups.removeMembers(widget.groupIndex, selectedAdventurers);
-        _showUndoRemoveBar(context, membersAndIndices);
+        _showUndoBar(context, memberToIndex);
       },
     );
   }
@@ -155,16 +152,15 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
     );
   }
 
-  void _showUndoRemoveBar(
-      BuildContext context, Map<Character, int> membersAndIndices) {
+  void _showUndoBar(BuildContext context, Map<Character, int> memberToIndex) {
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(membersAndIndices.length == 1
-          ? "${membersAndIndices.keys.first.name} deleted"
-          : "${membersAndIndices.length} groups deleted"),
+      content: Text(memberToIndex.length == 1
+          ? "${memberToIndex.keys.first.name} deleted"
+          : "${memberToIndex.length} members deleted"),
       action: SnackBarAction(
         label: "UNDO",
         onPressed: () =>
-            _groups.addAllMembers(widget.groupIndex, membersAndIndices),
+            _groups.addAllMembers(widget.groupIndex, memberToIndex),
       ),
     ));
   }
