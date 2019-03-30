@@ -18,8 +18,15 @@ class GroupsModel extends Model {
     notifyListeners();
   }
 
-  void remove(Group group) {
-    _groups.remove(group);
+  void addAll(Map<Group, int> groupsAndIndices) {
+    groupsAndIndices.forEach((group, index) => _groups.insert(index, group));
+    notifyListeners();
+  }
+
+  void removeAll(List<Group> deletedGroups) {
+    for (final group in deletedGroups) {
+      _groups.remove(group);
+    }
     notifyListeners();
   }
 
