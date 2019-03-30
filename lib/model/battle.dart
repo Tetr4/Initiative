@@ -13,8 +13,7 @@ class BattleModel extends Model {
     return participants.isNotEmpty;
   }
 
-  setParticipants(List<Character> list) {
-    _participants.clear();
+  addParticipants(List<Character> list) {
     _participants.addAll(list);
     notifyListeners();
   }
@@ -57,6 +56,11 @@ class BattleModel extends Model {
   reorderByInitiative(Map<Character, int> initiatives) {
     // TODO Initiative type (roll, dex, 2nd roll) instead of int
     _participants.sort((a, b) => initiatives[b].compareTo(initiatives[a]));
+    notifyListeners();
+  }
+
+  clear() {
+    _participants.clear();
     notifyListeners();
   }
 }

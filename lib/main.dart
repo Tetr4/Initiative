@@ -21,8 +21,8 @@ void main() async {
   );
 
   final storage = Storage(await SharedPreferences.getInstance());
-  battle.setParticipants(await storage.loadBattle());
-  groups.setItems(await storage.loadGroups());
+  battle.addParticipants(await storage.loadBattle());
+  groups.addItems(await storage.loadGroups());
 
   battle.addListener(() => storage.saveBattle(battle.participants));
   groups.addListener(() => storage.saveGroups(groups.items));

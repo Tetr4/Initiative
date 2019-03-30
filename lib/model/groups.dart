@@ -8,8 +8,7 @@ class GroupsModel extends Model {
 
   UnmodifiableListView<Group> get items => UnmodifiableListView(_groups);
 
-  setItems(List<Group> groups) {
-    _groups.clear();
+  addItems(List<Group> groups) {
     _groups.addAll(groups);
     notifyListeners();
   }

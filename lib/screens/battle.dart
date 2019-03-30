@@ -38,7 +38,7 @@ class _BattleScreenState extends State<BattleScreen> {
       return Scaffold(
         appBar: AppBar(
           title: Text('Battle'),
-          actions: battle.isActive ? [_buildInitiativeButton(context)] : [],
+          actions: battle.isActive ? _buildBattleButtons(context) : [],
         ),
         body: battle.isActive
             ? Scrollbar(child: Builder(builder: _buildParticipantList))
@@ -47,6 +47,9 @@ class _BattleScreenState extends State<BattleScreen> {
       );
     });
   }
+
+  List<Widget> _buildBattleButtons(BuildContext context) =>
+      [_buildInitiativeButton(context), _buildEndBattleButton(context)];
 
   Widget _buildInitiativeButton(BuildContext context) {
     return IconButton(
@@ -58,6 +61,22 @@ class _BattleScreenState extends State<BattleScreen> {
         initiativeUndetermined.addAll(battle.participants);
         _showNextInitiativeDialog();
       },
+    );
+  }
+
+  Widget _buildEndBattleButton(BuildContext context) {
+    return PopupMenuButton<VoidCallback>(
+      onSelected: (callback) => callback(),
+      itemBuilder: (BuildContext context) => [
+            PopupMenuItem(
+              value: () {
+                final removedParticipants = battle.participants.toList();
+                battle.clear();
+                _showUndoClearBar(context, removedParticipants);
+              },
+              child: Text("End Battle"),
+            ),
+          ],
     );
   }
 
@@ -104,21 +123,11 @@ class _BattleScreenState extends State<BattleScreen> {
                 onDismissed: (direction) {
                   final index = battle.participants.indexOf(participant);
                   battle.removeParticipant(participant);
-                  _showUndoBar(context, participant, index);
+                  _showUndoRemoveBar(context, participant, index);
                 },
               ))
           .toList(),
     );
-  }
-
-  void _showUndoBar(BuildContext context, Character participant, int index) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text("${participant.name} removed"),
-      action: SnackBarAction(
-        label: "UNDO",
-        onPressed: () => battle.addParticipantAt(participant, index),
-      ),
-    ));
   }
 
   void _showNextInitiativeDialog() {
@@ -138,6 +147,27 @@ class _BattleScreenState extends State<BattleScreen> {
             ),
       );
     }
+  }
+
+  void _showUndoRemoveBar(
+      BuildContext context, Character participant, int index) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text("${participant.name} removed"),
+      action: SnackBarAction(
+        label: "UNDO",
+        onPressed: () => battle.addParticipantAt(participant, index),
+      ),
+    ));
+  }
+
+  void _showUndoClearBar(BuildContext context, List<Character> participants) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text("Battle ended"),
+      action: SnackBarAction(
+        label: "UNDO",
+        onPressed: () => battle.addParticipants(participants),
+      ),
+    ));
   }
 }
 
