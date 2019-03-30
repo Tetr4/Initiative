@@ -55,6 +55,7 @@ class GroupsScreen extends StatelessWidget {
     Function(Group) onSelected,
   ) {
     return ListTile(
+      leading: Icon(Icons.group),
       title: Text(group.name),
       subtitle: Text('${group.members.length} adventurers'),
       onLongPress: () => onEdit(index),
