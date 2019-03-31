@@ -30,9 +30,9 @@ class AppLocalizations {
       'labelName': 'Name',
       'labelDescription': 'Description',
       'labelInitiative': 'Initiative',
-      'labelErrorName': 'Please enter a name',
-      'labelErrorDescription': 'Please enter a description',
-      'labelErrorInitiative': 'Please enter the rolled initiative',
+      'labelErrorName': 'Enter a name',
+      'labelErrorDescription': 'Enter a description',
+      'labelErrorInitiative': 'Enter the rolled initiative',
       'labelNpc': 'NPC',
       'labelGroup': 'Group',
       'tooltipAddParticipant': 'Add participant',
@@ -48,12 +48,49 @@ class AppLocalizations {
       'emptySubtitleGroup': 'Add adventurers and they will show up here.',
       'messageBattleEnded': 'Battle ended'
     },
-    'de': {},
+    'de': {
+      'edit': 'Bearbeiten',
+      'delete': 'Löschen',
+      'undo': 'RÜCKGÄNGIG',
+      'actionSave': 'SPEICHERN',
+      'actionCreate': 'ERSTELLEN',
+      'actionDone': 'FERTIG',
+      'actionAutoRoll': 'WÜRFELN (1-25)',
+      'titleBattle': 'Kampf',
+      'titleAddGroup': 'Gruppe hinzufügen',
+      'titleNewGroup': 'Gruppe erstellen',
+      'titleAddMember': 'Mitglied hinzufügen',
+      'titleAddNpc': 'NPC hinzufügen',
+      'titleInitiativeTie': 'Wer ist zuerst dran?',
+      'labelName': 'Name',
+      'labelDescription': 'Beschreibung',
+      'labelInitiative': 'Initiative',
+      'labelErrorName': 'Gib einen Namen ein',
+      'labelErrorDescription': 'Gib eine Beschreibung ein',
+      'labelErrorInitiative': 'Gib die gewürfelte initiative ein',
+      'labelNpc': 'NPC',
+      'labelGroup': 'Gruppe',
+      'tooltipAddParticipant': 'Teilnehmer hinzufügen',
+      'tooltipAddMember': 'Abenteurer hinzufügen',
+      'tooltipRollInitiative': 'Initiative würfeln',
+      'tooltipEndBattle': 'Kampf beenden',
+      'tooltipCreateGroup': 'Gruppe erstellen',
+      'emptyTitleGroups': 'Keine Gruppen.',
+      'emptySubtitleGroups':
+          'Erstelle eine Gruppe und sie wird hier auftauchen.',
+      'emptyTitleBattle': 'Kein aktiver Kampf.',
+      'emptySubtitleBattle':
+          'Füge Teilnehmer hinzu, um das Gefecht zu beginnen.',
+      'emptyTitleGroup': 'Keine Gruppenmitglieder.',
+      'emptySubtitleGroup':
+          'Füge Abenteurer hinzu und sie werden hier auftauchen.',
+      'messageBattleEnded': 'Kampf beendet'
+    },
   };
 
   static Map<String, Map<String, Function>> _localizedTemplates = {
     'en': {
-      'titleGroup': (Group group) => 'Edit ${group.name}',
+      'titleEdit': (String name) => 'Edit $name',
       'titleInitiative': (Character char) => "${char.name}'s initiative",
       'deleted': (String name) => '$name deleted',
       'removed': (String name) => '$name removed',
@@ -63,7 +100,16 @@ class AppLocalizations {
       'groupSubtitle': (Group group) =>
           '${group.members.length} adventurer${pluralS(group.members)}',
     },
-    'de': {},
+    'de': {
+      'titleEdit': (String name) => '$name bearbeiten',
+      'titleInitiative': (Character char) => "${char.name}s Initiative",
+      'deleted': (String name) => '$name entfernt',
+      'removed': (String name) => '$name entfernt',
+      'groupsDeleted': (int count) => "$count Gruppen entfernt",
+      'membersDeleted': (int count) => "$count Mitglieder entfernt",
+      'itemsSelected': (int count) => '$count ausgewählt',
+      'groupSubtitle': (Group group) => '${group.members.length} Abenteurer',
+    },
   };
 
   String _getValue(String key) =>
@@ -139,7 +185,7 @@ class AppLocalizations {
 
   String get messageBattleEnded => _getValue('messageBattleEnded');
 
-  String titleGroup(Group group) => _getTemplate('titleGroup')(group);
+  String titleEdit(String name) => _getTemplate('titleEdit')(name);
 
   String titleInitiative(Character c) => _getTemplate('titleInitiative')(c);
 

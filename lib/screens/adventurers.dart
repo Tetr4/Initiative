@@ -76,7 +76,7 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
       title: Text(
         selectedItems > 0
             ? AppLocalizations.of(context).itemsSelected(selectedItems)
-            : AppLocalizations.of(context).titleGroup(group),
+            : AppLocalizations.of(context).titleEdit(group.name),
       ),
       actions: actions,
     );

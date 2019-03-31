@@ -30,7 +30,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
     return AlertDialog(
       title: Text(
         adventurer != null
-            ? "Edit ${adventurer.name}"
+            ? AppLocalizations.of(context).titleEdit(adventurer.name)
             : AppLocalizations.of(context).titleAddMember,
       ),
       content: Form(
