@@ -58,6 +58,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
         return WillPopScope(
           onWillPop: _onBackPressed,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context, selectedGroups.length),
             body: _groups.items.isEmpty
                 ? EmptyGroupsBody()

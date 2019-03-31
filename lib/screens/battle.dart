@@ -48,6 +48,7 @@ class _BattleScreenState extends State<BattleScreen> {
         builder: (context, child, battle) {
       this.battle = battle;
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(AppLocalizations.of(context).titleBattle),
           actions: battle.isActive ? _buildBattleButtons(context) : [],

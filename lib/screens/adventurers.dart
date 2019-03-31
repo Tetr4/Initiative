@@ -53,6 +53,7 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
         return WillPopScope(
           onWillPop: _onBackPressed,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context, selectedAdventurers.length),
             body: group.members.isEmpty
                 ? EmptyGroupBody()
