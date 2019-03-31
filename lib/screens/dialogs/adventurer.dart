@@ -18,7 +18,9 @@ class AdventurerDialog extends StatefulWidget {
 class _AdventurerDialogState extends State<AdventurerDialog> {
   final _formKey = GlobalKey<FormState>();
   final _nameKey = GlobalKey<FormFieldState<String>>();
+  final _nameFocus = FocusNode();
   final _descriptionKey = GlobalKey<FormFieldState<String>>();
+  final _descriptionFocus = FocusNode();
 
   Character get adventurer => widget.adventurer;
 
@@ -41,7 +43,9 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
   TextFormField _buildNameField() {
     return TextFormField(
       key: _nameKey,
+      focusNode: _nameFocus,
       autofocus: true,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(labelText: "Name"),
       initialValue: adventurer?.name,
       validator: (text) {
@@ -49,12 +53,17 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
           return 'Please enter a name';
         }
       },
+      onFieldSubmitted: (term) {
+        _nameFocus.unfocus();
+        FocusScope.of(context).requestFocus(_descriptionFocus);
+      },
     );
   }
 
   TextFormField _buildDescriptionField() {
     return TextFormField(
       key: _descriptionKey,
+      focusNode: _descriptionFocus,
       decoration: InputDecoration(labelText: "Description"),
       initialValue: adventurer?.description,
       validator: (text) {
