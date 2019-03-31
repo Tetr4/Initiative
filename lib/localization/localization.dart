@@ -12,8 +12,7 @@ class AppLocalizations {
 
   static String pluralS(Iterable items) => items.length == 1 ? "" : "s";
 
-  // TODO static const
-  Map<String, Map<String, String>> _localizedValues = {
+  static const Map<String, Map<String, String>> _localizedValues = {
     'en': {
       'edit': 'Edit',
       'delete': 'Delete',
@@ -23,6 +22,7 @@ class AppLocalizations {
       'labelNpc': 'NPC',
       'labelGroup': 'Group',
       'tooltipAddParticipant': 'Add participant',
+      'tooltipAddMember': 'Add adventurer',
       'tooltipRollInitiative': 'Roll initiative',
       'tooltipEndBattle': 'End battle',
       'tooltipCreateGroup': 'New group',
@@ -30,17 +30,20 @@ class AppLocalizations {
       'emptySubitleGroups': 'Create a group and it will show up here.',
       'emptyTitleBattle': 'No active battle.',
       'emptySubtitleBattle': 'Add participants to start the battle.',
+      'emptyTitleGroup': 'No group members.',
+      'emptySubtitleGroup': 'Add adventurers and they will show up here.',
       'messageBattleEnded': 'Battle ended'
     },
     'de': {},
   };
 
-  // TODO static
-  Map<String, Map<String, Function>> _localizedTemplates = {
+  static Map<String, Map<String, Function>> _localizedTemplates = {
     'en': {
+      'titleGroup': (Group group) => 'Edit ${group.name}',
       'deleted': (String name) => '$name deleted',
       'removed': (String name) => '$name removed',
       'groupsDeleted': (int count) => "$count groups deleted",
+      'membersDeleted': (int count) => "$count members deleted",
       'itemsSelected': (int count) => '$count selected',
       'groupSubtitle': (Group group) =>
           '${group.members.length} adventurer${pluralS(group.members)}',
@@ -71,6 +74,8 @@ class AppLocalizations {
 
   String get tooltipAddParticipant => _getValue('tooltipAddParticipant');
 
+  String get tooltipAddMember => _getValue('tooltipAddMember');
+
   String get tooltipRollInitiative => _getValue('tooltipRollInitiative');
 
   String get tooltipEndBattle => _getValue('tooltipEndBattle');
@@ -85,13 +90,21 @@ class AppLocalizations {
 
   String get emptySubtitleBattle => _getValue('emptySubtitleBattle');
 
+  String get emptyTitleGroup => _getValue('emptyTitleGroup');
+
+  String get emptySubtitleGroup => _getValue('emptySubtitleGroup');
+
   String get messageBattleEnded => _getValue('messageBattleEnded');
+
+  String titleGroup(Group group) => _getTemplate('titleGroup')(group);
 
   String deleted(String name) => _getTemplate('deleted')(name);
 
   String removed(String name) => _getTemplate('removed')(name);
 
   String groupsDeleted(int count) => _getTemplate('groupsDeleted')(count);
+
+  String membersDeleted(int count) => _getTemplate('membersDeleted')(count);
 
   String itemsSelected(int count) => _getTemplate('itemsSelected')(count);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/dialogs/adventurer.dart';
@@ -73,7 +74,10 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
     }
     return AppBar(
       title: Text(
-          selectedItems > 0 ? "$selectedItems selected" : "Edit ${group.name}"),
+        selectedItems > 0
+            ? AppLocalizations.of(context).itemsSelected(selectedItems)
+            : AppLocalizations.of(context).titleGroup(group),
+      ),
       actions: actions,
     );
   }
@@ -81,7 +85,7 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
   Widget _buildEditButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.edit),
-      tooltip: "Edit",
+      tooltip: AppLocalizations.of(context).edit,
       onPressed: () {
         deselectAll();
         _showEditAdventurerDialog(context, selectedAdventurers.first);
@@ -92,7 +96,7 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
   Widget _buildDeleteButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.delete),
-      tooltip: "Delete",
+      tooltip: AppLocalizations.of(context).delete,
       onPressed: () {
         final Map<Character, int> memberToIndex = Map.fromIterable(
             selectedAdventurers,
@@ -129,7 +133,7 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
   FloatingActionButton _buildCreateAdventurerButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => _showCreateAdventurerDialog(context),
-      tooltip: 'Add adventurer',
+      tooltip: AppLocalizations.of(context).tooltipAddMember,
       child: Icon(Icons.add),
     );
   }
@@ -160,11 +164,15 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
     Scaffold.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text(memberToIndex.length == 1
-            ? "${memberToIndex.keys.first.name} deleted"
-            : "${memberToIndex.length} members deleted"),
+        content: Text(
+          memberToIndex.length == 1
+              ? AppLocalizations.of(context)
+                  .deleted(memberToIndex.keys.first.name)
+              : AppLocalizations.of(context)
+                  .membersDeleted(memberToIndex.length),
+        ),
         action: SnackBarAction(
-          label: "UNDO",
+          label: AppLocalizations.of(context).undo,
           onPressed: () =>
               _groups.addAllMembers(widget.groupIndex, memberToIndex),
         ),
@@ -205,14 +213,14 @@ class EmptyGroupBody extends StatelessWidget {
 
   Widget _buildText(BuildContext context) {
     return Text(
-      'No group members.',
+      AppLocalizations.of(context).emptyTitleGroup,
       style: Theme.of(context).textTheme.title,
     );
   }
 
   Widget _buildSubText(BuildContext context) {
     return Text(
-      'Add adventurers and they will show up here.',
+      AppLocalizations.of(context).emptySubtitleGroup,
       style: Theme.of(context).textTheme.subtitle,
     );
   }
