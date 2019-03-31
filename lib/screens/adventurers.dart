@@ -53,7 +53,9 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
           onWillPop: _onBackPressed,
           child: Scaffold(
             appBar: _buildAppBar(context, selectedAdventurers.length),
-            body: _buildAdventurersList(group.members),
+            body: group.members.isEmpty
+                ? EmptyGroupBody()
+                : _buildAdventurersList(group.members),
             floatingActionButton: _buildCreateAdventurerButton(context),
           ),
         );
@@ -165,5 +167,51 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
             _groups.addAllMembers(widget.groupIndex, memberToIndex),
       ),
     ));
+  }
+}
+
+class EmptyGroupBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(64),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(flex: 80, child: _buildImage()),
+            Padding(
+              padding: EdgeInsets.only(top: 16, bottom: 16),
+              child: _buildText(context),
+            ),
+            Expanded(flex: 20, child: _buildSubText(context)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    return LayoutBuilder(builder: (context, constraint) {
+      return Icon(
+        Icons.person_add,
+        size: constraint.biggest.shortestSide * 3 / 4,
+        color: Theme.of(context).primaryColorLight,
+      );
+    });
+  }
+
+  Widget _buildText(BuildContext context) {
+    return Text(
+      'No group members.',
+      style: Theme.of(context).textTheme.title,
+    );
+  }
+
+  Widget _buildSubText(BuildContext context) {
+    return Text(
+      'Add adventurers and they will show up here.',
+      style: Theme.of(context).textTheme.subtitle,
+    );
   }
 }

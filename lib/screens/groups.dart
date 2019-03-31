@@ -58,7 +58,9 @@ class _GroupsScreenState extends State<GroupsScreen> {
           onWillPop: _onBackPressed,
           child: Scaffold(
             appBar: _buildAppBar(context, selectedGroups.length),
-            body: _buildGroupsList(groups.items),
+            body: _groups.items.isEmpty
+                ? EmptyGroupsBody()
+                : _buildGroupsList(groups.items),
             floatingActionButton: _buildCreateGroupButton(context),
           ),
         );
@@ -156,5 +158,51 @@ class _GroupsScreenState extends State<GroupsScreen> {
         onPressed: () => _groups.addAll(groupToIndex),
       ),
     ));
+  }
+}
+
+class EmptyGroupsBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(64),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(flex: 80, child: _buildImage()),
+            Padding(
+              padding: EdgeInsets.only(top: 16, bottom: 16),
+              child: _buildText(context),
+            ),
+            Expanded(flex: 20, child: _buildSubText(context)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    return LayoutBuilder(builder: (context, constraint) {
+      return Icon(
+        Icons.group_add,
+        size: constraint.biggest.shortestSide * 3 / 4,
+        color: Theme.of(context).primaryColorLight,
+      );
+    });
+  }
+
+  Widget _buildText(BuildContext context) {
+    return Text(
+      'No groups.',
+      style: Theme.of(context).textTheme.title,
+    );
+  }
+
+  Widget _buildSubText(BuildContext context) {
+    return Text(
+      'Create a group and it will show up here.',
+      style: Theme.of(context).textTheme.subtitle,
+    );
   }
 }
