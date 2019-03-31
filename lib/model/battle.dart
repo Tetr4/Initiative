@@ -55,9 +55,8 @@ class BattleModel extends Model {
     notifyListeners();
   }
 
-  void reorderByInitiative(Map<Character, int> initiatives) {
-    // TODO Initiative type (roll, dex, 2nd roll) instead of int
-    _participants.sort((a, b) => initiatives[b].compareTo(initiatives[a]));
+  void reorderByInitiative(Map<Character, Initiative> initiatives) {
+    _participants.sort((a, b) => initiatives[a].compareTo(initiatives[b]));
     notifyListeners();
   }
 

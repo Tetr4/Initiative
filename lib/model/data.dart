@@ -45,3 +45,35 @@ class Group {
   Group copy(List<Character> newMembers) =>
       Group(name: this.name, members: newMembers);
 }
+
+class Initiative extends Comparable<Initiative> {
+  final int roll;
+  final int priority;
+
+  Initiative({@required this.roll, this.priority = 0});
+
+  bool operator ==(other) {
+    return (other is Initiative &&
+        other.roll == roll &&
+        other.priority == priority);
+  }
+
+  @override
+  int get hashCode => roll.hashCode * priority.hashCode;
+
+  @override
+  int compareTo(Initiative other) {
+    final rollResult = this.roll.compareTo(other.roll);
+    if (rollResult != 0) {
+      // higher roll first
+      return -rollResult;
+    } else {
+      // higher priority first
+      return -this.priority.compareTo(other.priority);
+    }
+  }
+
+  Initiative addPriority(int value) {
+    return Initiative(roll: this.roll, priority: this.priority + value);
+  }
+}

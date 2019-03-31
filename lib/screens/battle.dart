@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/data.dart';
 import 'package:initiative/screens/dialogs/initiative.dart';
+import 'package:initiative/screens/dialogs/initiative_tie.dart';
 import 'package:initiative/screens/dialogs/npc.dart';
 import 'package:initiative/screens/groups.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -13,9 +15,18 @@ class BattleScreen extends StatefulWidget {
 }
 
 class _BattleScreenState extends State<BattleScreen> {
-  final List<Character> initiativeUndetermined = [];
-  final Map<Character, int> initiatives = Map();
+  final Map<Character, Initiative> initiatives = Map();
   BattleModel battle;
+
+  List<Character> get undeterminedInitiatives => battle.participants.toList()
+    ..removeWhere((participant) => initiatives[participant] != null);
+
+  List<List<Character>> get ties {
+    final Map<Initiative, List<Character>> groups =
+        groupBy(initiatives.keys, (character) => initiatives[character]);
+    return groups.values.toList()
+      ..removeWhere((characters) => characters.length == 1);
+  }
 
   Future<void> _selectGroup(BuildContext context) async {
     final Group group = await Navigator.push(
@@ -57,8 +68,6 @@ class _BattleScreenState extends State<BattleScreen> {
       tooltip: 'Roll initiative',
       onPressed: () {
         initiatives.clear();
-        initiativeUndetermined.clear();
-        initiativeUndetermined.addAll(battle.participants);
         _showNextInitiativeDialog();
       },
     );
@@ -125,21 +134,36 @@ class _BattleScreenState extends State<BattleScreen> {
   }
 
   void _showNextInitiativeDialog() {
-    if (initiativeUndetermined.isEmpty) {
-      battle.reorderByInitiative(initiatives);
-    } else {
-      final participant = initiativeUndetermined.removeAt(0);
+    final undeterminedInitiatives = this.undeterminedInitiatives;
+    final ties = this.ties;
+    if (undeterminedInitiatives.isNotEmpty) {
+      final participant = undeterminedInitiatives.first;
       showDialog(
         context: context,
         builder: (BuildContext context) => InitiativeDialog(
               participant: participant,
-              onRolled: (initiative) {
-                // TODO handle ties
-                initiatives[participant] = initiative;
+              onRolled: (roll) {
+                initiatives[participant] = Initiative(roll: roll);
                 _showNextInitiativeDialog();
               },
             ),
       );
+    } else if (ties.isNotEmpty) {
+      final tiedParticipants = ties.first;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => InitiativeTieDialog(
+              tiedParticipants: tiedParticipants,
+              onTieResolved: (priorizedCharacter) {
+                final oldPrio = initiatives[priorizedCharacter];
+                final newPrio = oldPrio.addPriority(tiedParticipants.length);
+                initiatives[priorizedCharacter] = newPrio;
+                _showNextInitiativeDialog();
+              },
+            ),
+      );
+    } else {
+      battle.reorderByInitiative(initiatives);
     }
   }
 
