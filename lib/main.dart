@@ -39,10 +39,7 @@ class InitiativeApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('en', 'US'),
-        const Locale('de', 'DE'),
-      ],
+      supportedLocales: AppLocalizationsDelegate.supportedLocales,
       title: 'Initiative!',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
