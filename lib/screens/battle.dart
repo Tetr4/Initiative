@@ -151,23 +151,27 @@ class _BattleScreenState extends State<BattleScreen> {
 
   void _showUndoRemoveBar(
       BuildContext context, Character participant, int index) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text("${participant.name} removed"),
-      action: SnackBarAction(
-        label: "UNDO",
-        onPressed: () => battle.addParticipantAt(participant, index),
-      ),
-    ));
+    Scaffold.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text("${participant.name} removed"),
+        action: SnackBarAction(
+          label: "UNDO",
+          onPressed: () => battle.addParticipantAt(participant, index),
+        ),
+      ));
   }
 
   void _showUndoClearBar(BuildContext context, List<Character> participants) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text("Battle ended"),
-      action: SnackBarAction(
-        label: "UNDO",
-        onPressed: () => battle.addParticipants(participants),
-      ),
-    ));
+    Scaffold.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text("Battle ended"),
+        action: SnackBarAction(
+          label: "UNDO",
+          onPressed: () => battle.addParticipants(participants),
+        ),
+      ));
   }
 }
 

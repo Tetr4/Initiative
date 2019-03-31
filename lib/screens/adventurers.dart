@@ -157,16 +157,18 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
   }
 
   void _showUndoBar(BuildContext context, Map<Character, int> memberToIndex) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(memberToIndex.length == 1
-          ? "${memberToIndex.keys.first.name} deleted"
-          : "${memberToIndex.length} members deleted"),
-      action: SnackBarAction(
-        label: "UNDO",
-        onPressed: () =>
-            _groups.addAllMembers(widget.groupIndex, memberToIndex),
-      ),
-    ));
+    Scaffold.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text(memberToIndex.length == 1
+            ? "${memberToIndex.keys.first.name} deleted"
+            : "${memberToIndex.length} members deleted"),
+        action: SnackBarAction(
+          label: "UNDO",
+          onPressed: () =>
+              _groups.addAllMembers(widget.groupIndex, memberToIndex),
+        ),
+      ));
   }
 }
 

@@ -149,15 +149,17 @@ class _GroupsScreenState extends State<GroupsScreen> {
   }
 
   void _showUndoBar(BuildContext context, Map<Group, int> groupToIndex) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(groupToIndex.length == 1
-          ? "${groupToIndex.keys.first.name} deleted"
-          : "${groupToIndex.length} groups deleted"),
-      action: SnackBarAction(
-        label: "UNDO",
-        onPressed: () => _groups.addAll(groupToIndex),
-      ),
-    ));
+    Scaffold.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text(groupToIndex.length == 1
+            ? "${groupToIndex.keys.first.name} deleted"
+            : "${groupToIndex.length} groups deleted"),
+        action: SnackBarAction(
+          label: "UNDO",
+          onPressed: () => _groups.addAll(groupToIndex),
+        ),
+      ));
   }
 }
 

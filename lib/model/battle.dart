@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:initiative/model/data.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -40,7 +41,8 @@ class BattleModel extends Model {
   }
 
   void addParticipantAt(Character participant, int index) {
-    _participants.insert(index, participant);
+    final newIndex = min(index, _participants.length);
+    _participants.insert(newIndex, participant);
     notifyListeners();
   }
 
