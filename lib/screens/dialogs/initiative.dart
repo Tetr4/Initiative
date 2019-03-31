@@ -6,12 +6,10 @@ import 'package:initiative/model/data.dart';
 
 class InitiativeDialog extends StatefulWidget {
   final Character participant;
-  final void Function(int initiative) onRolled;
 
   InitiativeDialog({
     Key key,
     @required this.participant,
-    @required this.onRolled,
   }) : super(key: key);
 
   @override
@@ -73,8 +71,7 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
       onPressed: () {
         if (_formKey.currentState.validate()) {
           final initiative = num.parse(_initiativeKey.currentState.value);
-          Navigator.of(context).pop();
-          widget.onRolled(initiative);
+          Navigator.of(context).pop(initiative);
         }
       },
     );

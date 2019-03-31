@@ -3,12 +3,10 @@ import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class AdventurerDialog extends StatefulWidget {
-  final void Function(Character adventurer) onSave;
   final Character adventurer;
 
   AdventurerDialog({
     Key key,
-    @required this.onSave,
     this.adventurer,
   }) : super(key: key);
 
@@ -95,8 +93,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
             name: _nameKey.currentState.value,
             description: _descriptionKey.currentState.value,
           );
-          Navigator.of(context).pop();
-          widget.onSave(adventurer);
+          Navigator.of(context).pop(adventurer);
         }
       },
     );

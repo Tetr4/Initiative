@@ -4,12 +4,10 @@ import 'package:initiative/model/data.dart';
 
 class InitiativeTieDialog extends StatelessWidget {
   final List<Character> tiedParticipants;
-  final void Function(Character priorizedCharacter) onTieResolved;
 
   InitiativeTieDialog({
     Key key,
     @required this.tiedParticipants,
-    @required this.onTieResolved,
   }) : super(key: key);
 
   @override
@@ -42,10 +40,7 @@ class InitiativeTieDialog extends StatelessWidget {
             : Icons.bug_report),
       ),
       title: Text(character.name),
-      onTap: () {
-        Navigator.of(context).pop();
-        onTieResolved(character);
-      },
+      onTap: () => Navigator.of(context).pop(character),
     );
   }
 }

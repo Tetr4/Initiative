@@ -140,16 +140,15 @@ class _GroupsScreenState extends State<GroupsScreen> {
     );
   }
 
-  void _showCreateGroupDialog(BuildContext context) {
-    showDialog(
+  void _showCreateGroupDialog(BuildContext context) async {
+    final newGroup = await showDialog(
       context: context,
-      builder: (BuildContext context) => GroupDialog(
-            onCreate: (group) {
-              _groups.add(group);
-              _editGroup(context, group);
-            },
-          ),
+      builder: (BuildContext context) => GroupDialog(),
     );
+    if (newGroup != null) {
+      _groups.add(newGroup);
+      _editGroup(context, newGroup);
+    }
   }
 
   void _showUndoBar(BuildContext context, Map<Group, int> groupToIndex) {

@@ -138,26 +138,26 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
     );
   }
 
-  void _showEditAdventurerDialog(BuildContext context, Character adventurer) {
-    showDialog(
+  void _showEditAdventurerDialog(
+      BuildContext context, Character adventurer) async {
+    final newAdventurer = await showDialog(
       context: context,
-      builder: (BuildContext context) => AdventurerDialog(
-            adventurer: adventurer,
-            onSave: (newAdventurer) {
-              _groups.replaceMember(
-                  widget.groupIndex, adventurer, newAdventurer);
-            },
-          ),
+      builder: (BuildContext context) =>
+          AdventurerDialog(adventurer: adventurer),
     );
+    if (newAdventurer != null) {
+      _groups.replaceMember(widget.groupIndex, adventurer, newAdventurer);
+    }
   }
 
-  void _showCreateAdventurerDialog(BuildContext context) {
-    showDialog(
+  void _showCreateAdventurerDialog(BuildContext context) async {
+    final newAdventurer = await showDialog(
       context: context,
-      builder: (BuildContext context) => AdventurerDialog(onSave: (adventurer) {
-            _groups.addMember(widget.groupIndex, adventurer);
-          }),
+      builder: (BuildContext context) => AdventurerDialog(),
     );
+    if (newAdventurer != null) {
+      _groups.addMember(widget.groupIndex, newAdventurer);
+    }
   }
 
   void _showUndoBar(BuildContext context, Map<Character, int> memberToIndex) {

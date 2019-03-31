@@ -3,10 +3,6 @@ import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class NpcDialog extends StatefulWidget {
-  final void Function(Character npc) onCreate;
-
-  NpcDialog({Key key, @required this.onCreate}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _NpcDialogState();
 }
@@ -51,8 +47,7 @@ class _NpcDialogState extends State<NpcDialog> {
             name: _nameKey.currentState.value,
             type: CharacterType.NPC,
           );
-          Navigator.of(context).pop();
-          widget.onCreate(npc);
+          Navigator.of(context).pop(npc);
         }
       },
     );

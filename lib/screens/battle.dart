@@ -69,7 +69,7 @@ class _BattleScreenState extends State<BattleScreen> {
       tooltip: AppLocalizations.of(context).tooltipRollInitiative,
       onPressed: () {
         initiatives.clear();
-        _showNextInitiativeDialog();
+        _startInitiativeDialogs();
       },
     );
   }
@@ -100,11 +100,7 @@ class _BattleScreenState extends State<BattleScreen> {
           child: Icon(Icons.bug_report),
           backgroundColor: Colors.red,
           label: AppLocalizations.of(context).labelNpc,
-          onTap: () => showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    NpcDialog(onCreate: battle.addParticipant),
-              ),
+          onTap: () => _showNpcDialog(),
         ),
         SpeedDialChild(
           child: Icon(Icons.group),
@@ -134,38 +130,47 @@ class _BattleScreenState extends State<BattleScreen> {
     );
   }
 
-  void _showNextInitiativeDialog() {
-    final undeterminedInitiatives = this.undeterminedInitiatives;
-    final ties = this.ties;
-    if (undeterminedInitiatives.isNotEmpty) {
+  void _showNpcDialog() async {
+    final npc = await showDialog(
+      context: context,
+      builder: (BuildContext context) => NpcDialog(),
+    );
+    if (npc != null) {
+      battle.addParticipant(npc);
+    }
+  }
+
+  void _startInitiativeDialogs() async {
+    while (undeterminedInitiatives.isNotEmpty) {
       final participant = undeterminedInitiatives.first;
-      showDialog(
+      final roll = await showDialog(
         context: context,
-        builder: (BuildContext context) => InitiativeDialog(
-              participant: participant,
-              onRolled: (roll) {
-                initiatives[participant] = Initiative(roll: roll);
-                _showNextInitiativeDialog();
-              },
-            ),
+        builder: (BuildContext context) =>
+            InitiativeDialog(participant: participant),
       );
-    } else if (ties.isNotEmpty) {
+      if (roll != null) {
+        initiatives[participant] = Initiative(roll: roll);
+      } else {
+        return;
+      }
+    }
+    while (ties.isNotEmpty) {
       final tiedParticipants = ties.first;
-      showDialog(
+      final priorizedCharacter = await showDialog(
         context: context,
         builder: (BuildContext context) => InitiativeTieDialog(
               tiedParticipants: tiedParticipants,
-              onTieResolved: (priorizedCharacter) {
-                final oldPrio = initiatives[priorizedCharacter];
-                final newPrio = oldPrio.addPriority(tiedParticipants.length);
-                initiatives[priorizedCharacter] = newPrio;
-                _showNextInitiativeDialog();
-              },
             ),
       );
-    } else {
-      battle.reorderByInitiative(initiatives);
+      if (priorizedCharacter != null) {
+        final oldPrio = initiatives[priorizedCharacter];
+        final newPrio = oldPrio.addPriority(tiedParticipants.length);
+        initiatives[priorizedCharacter] = newPrio;
+      } else {
+        return;
+      }
     }
+    battle.reorderByInitiative(initiatives);
   }
 
   void _showUndoRemoveBar(

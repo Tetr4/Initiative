@@ -3,10 +3,6 @@ import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class GroupDialog extends StatefulWidget {
-  final void Function(Group group) onCreate;
-
-  GroupDialog({Key key, @required this.onCreate}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _GroupDialogState();
 }
@@ -48,8 +44,7 @@ class _GroupDialogState extends State<GroupDialog> {
       onPressed: () {
         if (_formKey.currentState.validate()) {
           final group = Group(name: _nameKey.currentState.value);
-          Navigator.of(context).pop();
-          widget.onCreate(group);
+          Navigator.of(context).pop(group);
         }
       },
     );
