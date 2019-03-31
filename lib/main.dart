@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:initiative/localization/delegate.dart';
 import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/groups.dart';
 import 'package:initiative/model/storage.dart';
@@ -32,7 +34,16 @@ class InitiativeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Initiative App',
+      localizationsDelegates: [
+        AppLocalizationsDelegate.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('de', 'DE'),
+      ],
+      title: 'Initiative!',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
