@@ -102,12 +102,14 @@ class _GroupsScreenState extends State<GroupsScreen> {
   }
 
   Widget _buildGroupsList(List<Group> groups) {
-    return ListView.builder(
-      itemCount: groups.length,
-      itemBuilder: (context, index) {
-        final group = groups[index];
-        return _buildGroupItem(group, isSelected(group));
-      },
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: groups.length,
+        itemBuilder: (context, index) {
+          final group = groups[index];
+          return _buildGroupItem(group, isSelected(group));
+        },
+      ),
     );
   }
 

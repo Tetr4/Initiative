@@ -102,12 +102,14 @@ class _AdventurersScreenState extends State<AdventurersScreen> {
   }
 
   Widget _buildAdventurersList(List<Character> adventurers) {
-    return ListView.builder(
-      itemCount: adventurers.length,
-      itemBuilder: (context, index) {
-        final adventurer = adventurers[index];
-        return _buildAdventurerItem(adventurer, isSelected(adventurer));
-      },
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: adventurers.length,
+        itemBuilder: (context, index) {
+          final adventurer = adventurers[index];
+          return _buildAdventurerItem(adventurer, isSelected(adventurer));
+        },
+      ),
     );
   }
 
