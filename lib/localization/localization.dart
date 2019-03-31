@@ -41,7 +41,7 @@ class AppLocalizations {
       'tooltipEndBattle': 'End battle',
       'tooltipCreateGroup': 'New group',
       'emptyTitleGroups': 'No groups.',
-      'emptySubitleGroups': 'Create a group and it will show up here.',
+      'emptySubtitleGroups': 'Create a group and it will show up here.',
       'emptyTitleBattle': 'No active battle.',
       'emptySubtitleBattle': 'Add participants to start the battle.',
       'emptyTitleGroup': 'No group members.',
