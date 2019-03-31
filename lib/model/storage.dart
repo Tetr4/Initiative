@@ -19,6 +19,7 @@ class Storage {
       // default group
       final defaultGroup = Group(name: "Foobarion", members: [
         Character(name: "Turweck", description: "Zwerg Magier"),
+        Character(name: "Olaf", description: "Mensch Waldläufer"),
         Character(name: "Raven", description: "Halbelf Schurke"),
         Character(name: "Artemis", description: "Mensch Hexenmeister"),
         Character(name: "Vincent", description: "Mensch Kleriker"),
