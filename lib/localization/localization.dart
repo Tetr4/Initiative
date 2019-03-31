@@ -18,10 +18,19 @@ class AppLocalizations {
       'edit': 'Edit',
       'delete': 'Delete',
       'undo': 'UNDO',
-      'groupsTitle': 'Add group',
-      'createGroupTooltip': 'New group',
-      'emptyGroupsTitle': 'No groups.',
-      'emptyGroupsSubtitle': 'Create a group and it will show up here.',
+      'titleBattle': 'Battle',
+      'titleGroups': 'Add group',
+      'labelNpc': 'NPC',
+      'labelGroup': 'Group',
+      'tooltipAddParticipant': 'Add participant',
+      'tooltipRollInitiative': 'Roll initiative',
+      'tooltipEndBattle': 'End battle',
+      'tooltipCreateGroup': 'New group',
+      'emptyTitleGroups': 'No groups.',
+      'emptySubitleGroups': 'Create a group and it will show up here.',
+      'emptyTitleBattle': 'No active battle.',
+      'emptySubtitleBattle': 'Add participants to start the battle.',
+      'messageBattleEnded': 'Battle ended'
     },
     'de': {},
   };
@@ -29,7 +38,8 @@ class AppLocalizations {
   // TODO static
   Map<String, Map<String, Function>> _localizedTemplates = {
     'en': {
-      'groupDeleted': (Group group) => '${group.name} deleted',
+      'deleted': (String name) => '$name deleted',
+      'removed': (String name) => '$name removed',
       'groupsDeleted': (int count) => "$count groups deleted",
       'itemsSelected': (int count) => '$count selected',
       'groupSubtitle': (Group group) =>
@@ -51,15 +61,35 @@ class AppLocalizations {
 
   String get undo => _getValue('undo');
 
-  String get groupsTitle => _getValue('groupsTitle');
+  String get titleBattle => _getValue('titleBattle');
 
-  String get createGroupTooltip => _getValue('createGroupTooltip');
+  String get titleGroups => _getValue('titleGroups');
 
-  String get emptyGroupsTitle => _getValue('emptyGroupsTitle');
+  String get labelNpc => _getValue('labelNpc');
 
-  String get emptyGroupsSubtitle => _getValue('emptyGroupsSubtitle');
+  String get labelGroup => _getValue('labelGroup');
 
-  String groupDeleted(Group group) => _getTemplate('groupDeleted')(group);
+  String get tooltipAddParticipant => _getValue('tooltipAddParticipant');
+
+  String get tooltipRollInitiative => _getValue('tooltipRollInitiative');
+
+  String get tooltipEndBattle => _getValue('tooltipEndBattle');
+
+  String get tooltipCreateGroup => _getValue('tooltipCreateGroup');
+
+  String get emptyTitleGroups => _getValue('emptyTitleGroups');
+
+  String get emptySubtitleGroups => _getValue('emptySubtitleGroups');
+
+  String get emptyTitleBattle => _getValue('emptyTitleBattle');
+
+  String get emptySubtitleBattle => _getValue('emptySubtitleBattle');
+
+  String get messageBattleEnded => _getValue('messageBattleEnded');
+
+  String deleted(String name) => _getTemplate('deleted')(name);
+
+  String removed(String name) => _getTemplate('removed')(name);
 
   String groupsDeleted(int count) => _getTemplate('groupsDeleted')(count);
 

@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/battle.dart';
 import 'package:initiative/model/data.dart';
 import 'package:initiative/screens/dialogs/initiative.dart';
@@ -48,7 +49,7 @@ class _BattleScreenState extends State<BattleScreen> {
       this.battle = battle;
       return Scaffold(
         appBar: AppBar(
-          title: Text('Battle'),
+          title: Text(AppLocalizations.of(context).titleBattle),
           actions: battle.isActive ? _buildBattleButtons(context) : [],
         ),
         body: battle.isActive
@@ -65,7 +66,7 @@ class _BattleScreenState extends State<BattleScreen> {
   Widget _buildInitiativeButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.casino),
-      tooltip: 'Roll initiative',
+      tooltip: AppLocalizations.of(context).tooltipRollInitiative,
       onPressed: () {
         initiatives.clear();
         _showNextInitiativeDialog();
@@ -83,7 +84,7 @@ class _BattleScreenState extends State<BattleScreen> {
                 battle.clear();
                 _showUndoClearBar(context, removedParticipants);
               },
-              child: Text("End Battle"),
+              child: Text(AppLocalizations.of(context).tooltipEndBattle),
             ),
           ],
     );
@@ -93,12 +94,12 @@ class _BattleScreenState extends State<BattleScreen> {
     return SpeedDial(
       child: Icon(Icons.add),
 //      animatedIcon: AnimatedIcons.add_event, // TODO add_close icon?
-      tooltip: 'Add participant',
+      tooltip: AppLocalizations.of(context).tooltipAddParticipant,
       children: [
         SpeedDialChild(
           child: Icon(Icons.bug_report),
           backgroundColor: Colors.red,
-          label: 'NPC',
+          label: AppLocalizations.of(context).labelNpc,
           onTap: () => showDialog(
                 context: context,
                 builder: (BuildContext context) =>
@@ -108,7 +109,7 @@ class _BattleScreenState extends State<BattleScreen> {
         SpeedDialChild(
           child: Icon(Icons.group),
           backgroundColor: Colors.green,
-          label: 'Group',
+          label: AppLocalizations.of(context).labelGroup,
           onTap: () => _selectGroup(context),
         ),
       ],
@@ -172,9 +173,9 @@ class _BattleScreenState extends State<BattleScreen> {
     Scaffold.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text("${participant.name} removed"),
+        content: Text(AppLocalizations.of(context).removed(participant.name)),
         action: SnackBarAction(
-          label: "UNDO",
+          label: AppLocalizations.of(context).undo,
           onPressed: () => battle.addParticipantAt(participant, index),
         ),
       ));
@@ -184,9 +185,9 @@ class _BattleScreenState extends State<BattleScreen> {
     Scaffold.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text("Battle ended"),
+        content: Text(AppLocalizations.of(context).messageBattleEnded),
         action: SnackBarAction(
-          label: "UNDO",
+          label: AppLocalizations.of(context).undo,
           onPressed: () => battle.addParticipants(participants),
         ),
       ));
@@ -226,14 +227,14 @@ class EmptyBattleBody extends StatelessWidget {
 
   Text _buildText(BuildContext context) {
     return Text(
-      'No active battle.',
+      AppLocalizations.of(context).emptyTitleBattle,
       style: Theme.of(context).textTheme.title,
     );
   }
 
   Text _buildSubText(BuildContext context) {
     return Text(
-      'Add participants to start the battle.',
+      AppLocalizations.of(context).emptySubtitleBattle,
       style: Theme.of(context).textTheme.subtitle,
     );
   }

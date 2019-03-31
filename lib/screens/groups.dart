@@ -81,7 +81,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
       title: Text(
         selectedItems > 0
             ? AppLocalizations.of(context).itemsSelected(selectedItems)
-            : AppLocalizations.of(context).groupsTitle,
+            : AppLocalizations.of(context).titleGroups,
       ),
       actions: actions,
     );
@@ -135,7 +135,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget _buildCreateGroupButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => _showCreateGroupDialog(context),
-      tooltip: AppLocalizations.of(context).createGroupTooltip,
+      tooltip: AppLocalizations.of(context).tooltipCreateGroup,
       child: Icon(Icons.add),
     );
   }
@@ -159,7 +159,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
         content: Text(
           groupToIndex.length == 1
               ? AppLocalizations.of(context)
-                  .groupDeleted(groupToIndex.keys.first)
+                  .deleted(groupToIndex.keys.first.name)
               : AppLocalizations.of(context).groupsDeleted(groupToIndex.length),
         ),
         action: SnackBarAction(
@@ -203,14 +203,14 @@ class EmptyGroupsBody extends StatelessWidget {
 
   Widget _buildText(BuildContext context) {
     return Text(
-      AppLocalizations.of(context).emptyGroupsTitle,
+      AppLocalizations.of(context).emptyTitleGroups,
       style: Theme.of(context).textTheme.title,
     );
   }
 
   Widget _buildSubText(BuildContext context) {
     return Text(
-      AppLocalizations.of(context).emptyGroupsSubtitle,
+      AppLocalizations.of(context).emptySubtitleGroups,
       style: Theme.of(context).textTheme.subtitle,
     );
   }
