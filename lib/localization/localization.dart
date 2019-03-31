@@ -12,15 +12,16 @@ class AppLocalizations {
 
   static String pluralS(Iterable items) => items.length == 1 ? "" : "s";
 
-  static const Map<String, Map<String, String>> _localizedValues = {
+  // TODO static const
+  Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      'add_group': 'Add group',
-      'new_group': 'New group',
       'edit': 'Edit',
       'delete': 'Delete',
       'undo': 'UNDO',
-      'empty_groups_title': 'No groups.',
-      'empty_groups_subtitle': 'Create a group and it will show up here.',
+      'groupsTitle': 'Add group',
+      'createGroupTooltip': 'New group',
+      'emptyGroupsTitle': 'No groups.',
+      'emptyGroupsSubtitle': 'Create a group and it will show up here.',
     },
     'de': {},
   };
@@ -28,10 +29,10 @@ class AppLocalizations {
   // TODO static
   Map<String, Map<String, Function>> _localizedTemplates = {
     'en': {
-      'group_deleted': (Group group) => '${group.name} deleted',
-      'groups_deleted': (int count) => "$count groups deleted",
-      'items_selected': (int count) => '$count selected',
-      'group_subtitle': (Group group) =>
+      'groupDeleted': (Group group) => '${group.name} deleted',
+      'groupsDeleted': (int count) => "$count groups deleted",
+      'itemsSelected': (int count) => '$count selected',
+      'groupSubtitle': (Group group) =>
           '${group.members.length} adventurer${pluralS(group.members)}',
     },
     'de': {},
@@ -44,25 +45,25 @@ class AppLocalizations {
       _localizedTemplates[locale.languageCode][key] ??
       _localizedTemplates['en'][key];
 
-  String get addGroup => _getValue('add_group');
-
-  String get newGroup => _getValue('new_group');
-
   String get edit => _getValue('edit');
 
   String get delete => _getValue('delete');
 
   String get undo => _getValue('undo');
 
-  String get emptyGroupsSubtitle => _getValue('empty_groups_subtitle');
+  String get groupsTitle => _getValue('groupsTitle');
 
-  String get emptyGroupsTitle => _getValue('empty_groups_title');
+  String get createGroupTooltip => _getValue('createGroupTooltip');
 
-  String groupDeleted(Group group) => _getTemplate('group_deleted')(group);
+  String get emptyGroupsTitle => _getValue('emptyGroupsTitle');
 
-  String groupsDeleted(int count) => _getTemplate('groups_deleted')(count);
+  String get emptyGroupsSubtitle => _getValue('emptyGroupsSubtitle');
 
-  String selected(int count) => _getTemplate('items_selected')(count);
+  String groupDeleted(Group group) => _getTemplate('groupDeleted')(group);
 
-  String groupSubtitle(Group group) => _getTemplate('group_subtitle')(group);
+  String groupsDeleted(int count) => _getTemplate('groupsDeleted')(count);
+
+  String itemsSelected(int count) => _getTemplate('itemsSelected')(count);
+
+  String groupSubtitle(Group group) => _getTemplate('groupSubtitle')(group);
 }

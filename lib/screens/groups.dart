@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 import 'package:initiative/model/groups.dart';
 import 'package:initiative/screens/adventurers.dart';
@@ -77,7 +78,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
       actions.add(Builder(builder: _buildDeleteButton));
     }
     return AppBar(
-      title: Text(selectedItems > 0 ? "$selectedItems selected" : "Add group"),
+      title: Text(
+        selectedItems > 0
+            ? AppLocalizations.of(context).itemsSelected(selectedItems)
+            : AppLocalizations.of(context).groupsTitle,
+      ),
       actions: actions,
     );
   }
@@ -85,7 +90,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget _buildEditButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.edit),
-      tooltip: "Edit",
+      tooltip: AppLocalizations.of(context).edit,
       onPressed: () => _editGroup(context, selectedGroups.first),
     );
   }
@@ -93,7 +98,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget _buildDeleteButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.delete),
-      tooltip: "Delete",
+      tooltip: AppLocalizations.of(context).delete,
       onPressed: () {
         final Map<Group, int> groupToIndex = Map.fromIterable(selectedGroups,
             value: (group) => _groups.items.indexOf(group));
@@ -116,12 +121,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
   }
 
   Widget _buildGroupItem(Group group, bool isSelected) {
-    final pluralS = group.members.length == 1 ? "" : "s";
     final icon = isSelected ? Icons.check : Icons.group;
     return ListTile(
       leading: CircleAvatar(child: Icon(icon)),
       title: Text(group.name),
-      subtitle: Text("${group.members.length} adventurer$pluralS"),
+      subtitle: Text(AppLocalizations.of(context).groupSubtitle(group)),
       onTap: () =>
           isSelecting ? toggleSelection(group) : Navigator.pop(context, group),
       onLongPress: () => toggleSelection(group),
@@ -131,7 +135,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
   Widget _buildCreateGroupButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => _showCreateGroupDialog(context),
-      tooltip: "New group",
+      tooltip: AppLocalizations.of(context).createGroupTooltip,
       child: Icon(Icons.add),
     );
   }
@@ -152,11 +156,14 @@ class _GroupsScreenState extends State<GroupsScreen> {
     Scaffold.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text(groupToIndex.length == 1
-            ? "${groupToIndex.keys.first.name} deleted"
-            : "${groupToIndex.length} groups deleted"),
+        content: Text(
+          groupToIndex.length == 1
+              ? AppLocalizations.of(context)
+                  .groupDeleted(groupToIndex.keys.first)
+              : AppLocalizations.of(context).groupsDeleted(groupToIndex.length),
+        ),
         action: SnackBarAction(
-          label: "UNDO",
+          label: AppLocalizations.of(context).undo,
           onPressed: () => _groups.addAll(groupToIndex),
         ),
       ));
@@ -196,14 +203,14 @@ class EmptyGroupsBody extends StatelessWidget {
 
   Widget _buildText(BuildContext context) {
     return Text(
-      'No groups.',
+      AppLocalizations.of(context).emptyGroupsTitle,
       style: Theme.of(context).textTheme.title,
     );
   }
 
   Widget _buildSubText(BuildContext context) {
     return Text(
-      'Create a group and it will show up here.',
+      AppLocalizations.of(context).emptyGroupsSubtitle,
       style: Theme.of(context).textTheme.subtitle,
     );
   }
