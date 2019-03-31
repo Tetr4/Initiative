@@ -96,12 +96,6 @@ class _BattleScreenState extends State<BattleScreen> {
                     NpcDialog(onCreate: battle.addParticipant),
               ),
         ),
-//        SpeedDialChild(
-//          child: Icon(Icons.face),
-//          backgroundColor: Colors.blue,
-//          label: 'Adventurer',
-//          onTap: () => print('SECOND CHILD'),
-//        ),
         SpeedDialChild(
           child: Icon(Icons.group),
           backgroundColor: Colors.green,
