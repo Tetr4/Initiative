@@ -81,7 +81,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
       title: Text(
         selectedItems > 0
             ? AppLocalizations.of(context).itemsSelected(selectedItems)
-            : AppLocalizations.of(context).titleGroups,
+            : AppLocalizations.of(context).titleAddGroup,
       ),
       actions: actions,
     );

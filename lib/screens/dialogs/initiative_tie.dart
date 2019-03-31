@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class InitiativeTieDialog extends StatelessWidget {
@@ -14,7 +15,7 @@ class InitiativeTieDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Who should be first?"),
+      title: Text(AppLocalizations.of(context).titleInitiativeTie),
       content: _buildList(context),
     );
   }
@@ -34,11 +35,12 @@ class InitiativeTieDialog extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, Character character) {
-    final icon = character.type == CharacterType.ADVENTURER
-        ? Icons.face
-        : Icons.bug_report;
     return ListTile(
-      leading: CircleAvatar(child: Icon(icon)),
+      leading: CircleAvatar(
+        child: Icon(character.type == CharacterType.ADVENTURER
+            ? Icons.face
+            : Icons.bug_report),
+      ),
       title: Text(character.name),
       onTap: () {
         Navigator.of(context).pop();

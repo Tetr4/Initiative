@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class GroupDialog extends StatefulWidget {
@@ -17,7 +18,7 @@ class _GroupDialogState extends State<GroupDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("New group"),
+      title: Text(AppLocalizations.of(context).titleNewGroup),
       content: Form(
         key: _formKey,
         child: _buildNameField(),
@@ -30,10 +31,12 @@ class _GroupDialogState extends State<GroupDialog> {
     return TextFormField(
       key: _nameKey,
       autofocus: true,
-      decoration: InputDecoration(labelText: "Name"),
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context).labelName,
+      ),
       validator: (value) {
         if (value.isEmpty) {
-          return 'Please enter a name';
+          return AppLocalizations.of(context).labelErrorName;
         }
       },
     );
@@ -41,7 +44,7 @@ class _GroupDialogState extends State<GroupDialog> {
 
   FlatButton _buildCreateButton(BuildContext context) {
     return FlatButton(
-      child: new Text("Create"),
+      child: new Text(AppLocalizations.of(context).actionCreate),
       onPressed: () {
         if (_formKey.currentState.validate()) {
           final group = Group(name: _nameKey.currentState.value);

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class InitiativeDialog extends StatefulWidget {
@@ -26,10 +27,12 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("${widget.participant.name}'s initiative"),
+      title: Text(
+        AppLocalizations.of(context).titleInitiative(widget.participant),
+      ),
       content: Form(
         key: _formKey,
-        child: _buildInitiativeField(), // TODO count field?
+        child: _buildInitiativeField(),
       ),
       actions: <Widget>[
         _buildAutoRollButton(context),
@@ -43,11 +46,13 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
       key: _initiativeKey,
       autofocus: true,
       controller: _initiativeController,
-      decoration: InputDecoration(labelText: "Initiative"),
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context).labelInitiative,
+      ),
       keyboardType: TextInputType.number,
       validator: (value) {
         if (value.isEmpty || num.tryParse(value) == null) {
-          return "Please enter the rolled initiative.";
+          return AppLocalizations.of(context).labelErrorInitiative;
         }
       },
     );
@@ -55,7 +60,7 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
 
   FlatButton _buildAutoRollButton(BuildContext context) {
     return FlatButton(
-      child: new Text("roll (1-25)"),
+      child: new Text(AppLocalizations.of(context).actionAutoRoll),
       onPressed: () {
         _initiativeController.text = (random.nextInt(25) + 1).toString();
       },
@@ -64,7 +69,7 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
 
   FlatButton _buildCreateButton(BuildContext context) {
     return FlatButton(
-      child: new Text("done"),
+      child: new Text(AppLocalizations.of(context).actionDone),
       onPressed: () {
         if (_formKey.currentState.validate()) {
           final initiative = num.parse(_initiativeKey.currentState.value);

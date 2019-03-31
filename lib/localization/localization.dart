@@ -17,8 +17,22 @@ class AppLocalizations {
       'edit': 'Edit',
       'delete': 'Delete',
       'undo': 'UNDO',
+      'actionSave': 'SAVE',
+      'actionCreate': 'CREATE',
+      'actionDone': 'DONE',
+      'actionAutoRoll': 'ROLL (1-25)',
       'titleBattle': 'Battle',
-      'titleGroups': 'Add group',
+      'titleAddGroup': 'Add group',
+      'titleNewGroup': 'New group',
+      'titleAddMember': 'Add member',
+      'titleAddNpc': 'Add NPC',
+      'titleInitiativeTie': 'Who should be first?',
+      'labelName': 'Name',
+      'labelDescription': 'Description',
+      'labelInitiative': 'Initiative',
+      'labelErrorName': 'Please enter a name',
+      'labelErrorDescription': 'Please enter a description',
+      'labelErrorInitiative': 'Please enter the rolled initiative',
       'labelNpc': 'NPC',
       'labelGroup': 'Group',
       'tooltipAddParticipant': 'Add participant',
@@ -40,6 +54,7 @@ class AppLocalizations {
   static Map<String, Map<String, Function>> _localizedTemplates = {
     'en': {
       'titleGroup': (Group group) => 'Edit ${group.name}',
+      'titleInitiative': (Character char) => "${char.name}'s initiative",
       'deleted': (String name) => '$name deleted',
       'removed': (String name) => '$name removed',
       'groupsDeleted': (int count) => "$count groups deleted",
@@ -64,9 +79,37 @@ class AppLocalizations {
 
   String get undo => _getValue('undo');
 
+  String get actionSave => _getValue('actionSave');
+
+  String get actionCreate => _getValue('actionCreate');
+
+  String get actionDone => _getValue('actionDone');
+
+  String get actionAutoRoll => _getValue('actionAutoRoll');
+
   String get titleBattle => _getValue('titleBattle');
 
-  String get titleGroups => _getValue('titleGroups');
+  String get titleAddGroup => _getValue('titleAddGroup');
+
+  String get titleNewGroup => _getValue('titleNewGroup');
+
+  String get titleAddMember => _getValue('titleAddMember');
+
+  String get titleAddNpc => _getValue('titleAddNpc');
+
+  String get titleInitiativeTie => _getValue('titleInitiativeTie');
+
+  String get labelName => _getValue('labelName');
+
+  String get labelDescription => _getValue('labelDescription');
+
+  String get labelInitiative => _getValue('labelInitiative');
+
+  String get labelErrorName => _getValue('labelErrorName');
+
+  String get labelErrorDescription => _getValue('labelErrorDescription');
+
+  String get labelErrorInitiative => _getValue('labelErrorInitiative');
 
   String get labelNpc => _getValue('labelNpc');
 
@@ -97,6 +140,8 @@ class AppLocalizations {
   String get messageBattleEnded => _getValue('messageBattleEnded');
 
   String titleGroup(Group group) => _getTemplate('titleGroup')(group);
+
+  String titleInitiative(Character c) => _getTemplate('titleInitiative')(c);
 
   String deleted(String name) => _getTemplate('deleted')(name);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class AdventurerDialog extends StatefulWidget {
@@ -27,8 +28,11 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title:
-          Text(adventurer != null ? "Edit ${adventurer.name}" : "Add member"),
+      title: Text(
+        adventurer != null
+            ? "Edit ${adventurer.name}"
+            : AppLocalizations.of(context).titleAddMember,
+      ),
       content: Form(
         key: _formKey,
         child: Column(
@@ -46,11 +50,13 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
       focusNode: _nameFocus,
       autofocus: true,
       textInputAction: TextInputAction.next,
-      decoration: InputDecoration(labelText: "Name"),
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context).labelName,
+      ),
       initialValue: adventurer?.name,
       validator: (text) {
         if (text.isEmpty) {
-          return 'Please enter a name';
+          return AppLocalizations.of(context).labelErrorName;
         }
       },
       onFieldSubmitted: (term) {
@@ -64,11 +70,13 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
     return TextFormField(
       key: _descriptionKey,
       focusNode: _descriptionFocus,
-      decoration: InputDecoration(labelText: "Description"),
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context).labelDescription,
+      ),
       initialValue: adventurer?.description,
       validator: (text) {
         if (text.isEmpty) {
-          return 'Please enter a description';
+          return AppLocalizations.of(context).labelErrorDescription;
         }
       },
     );
@@ -76,7 +84,11 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
 
   FlatButton _buildCreateButton(BuildContext context) {
     return FlatButton(
-      child: new Text(adventurer != null ? "Save" : "Create"),
+      child: new Text(
+        adventurer != null
+            ? AppLocalizations.of(context).actionSave
+            : AppLocalizations.of(context).actionCreate,
+      ),
       onPressed: () {
         if (_formKey.currentState.validate()) {
           final adventurer = Character(
