@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/3826929/54956180-a887e600-4f4f-11e9-882b-af56edd05fe9.png" title="Initiative" align="right" height="60" />
+<img src="./assets/battle_swords.png" title="Initiative" align="right" height="60" />
 
 # Initiative App
 
@@ -10,7 +10,7 @@ Made with [Flutter](https://flutter.dev/) and focused on [Material Design](https
 <br>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/3826929/55291424-c5ed0200-53de-11e9-8684-55cc1b9eca40.png" title="Landing" height="350" />
+<img src="https://user-images.githubusercontent.com/3826929/55366799-a04d1f00-54ea-11e9-8ac8-0b3b7c007ead.png" title="Landing" height="350" />
 &nbsp;
 <img src="https://user-images.githubusercontent.com/3826929/55291439-ddc48600-53de-11e9-99f9-9ea046c524e4.png" title="Battle" height="350" />
 &nbsp;
