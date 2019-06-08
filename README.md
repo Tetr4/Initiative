@@ -1,4 +1,4 @@
-<img src="./assets/battle_swords.png" title="Initiative" align="right" height="60" />
+<img src="./assets/battle_swords.svg" title="Initiative" align="right" height="60" />
 
 # Initiative App
 
