@@ -23,7 +23,7 @@ class Storage {
         Character(name: "Raven", description: "Halbelf Schurke"),
         Character(name: "Artemis", description: "Mensch Hexenmeister"),
         Character(name: "Vincent", description: "Mensch Kleriker"),
-        Character(name: "Zarzuket", description: "Gnom Mentalist"),
+        Character(name: "Zarzukett", description: "Gnom Mentalist"),
       ]);
       return [defaultGroup];
     }

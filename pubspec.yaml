@@ -3,18 +3,17 @@
 name: initiative
 description: Initiative App
 
-version: 1.2.3+6
+version: 1.2.4+6
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.5.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^0.1.2
-  flutter_speed_dial: ^1.1.1
+  flutter_speed_dial: ^1.2.4
   scoped_model: ^1.0.1
-  shared_preferences: ^0.5.1+2
+  shared_preferences: ^0.5.4+5
   flutter_localizations:
     sdk: flutter
 
