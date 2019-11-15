@@ -52,11 +52,8 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
         labelText: AppLocalizations.of(context).labelName,
       ),
       initialValue: adventurer?.name,
-      validator: (text) {
-        if (text.isEmpty) {
-          return AppLocalizations.of(context).labelErrorName;
-        }
-      },
+      validator: (text) =>
+          text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
       onFieldSubmitted: (term) {
         _nameFocus.unfocus();
         FocusScope.of(context).requestFocus(_descriptionFocus);
@@ -72,11 +69,9 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
         labelText: AppLocalizations.of(context).labelDescription,
       ),
       initialValue: adventurer?.description,
-      validator: (text) {
-        if (text.isEmpty) {
-          return AppLocalizations.of(context).labelErrorDescription;
-        }
-      },
+      validator: (text) => text.isEmpty
+          ? AppLocalizations.of(context).labelErrorDescription
+          : null,
     );
   }
 

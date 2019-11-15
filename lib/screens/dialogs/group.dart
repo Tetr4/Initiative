@@ -30,11 +30,8 @@ class _GroupDialogState extends State<GroupDialog> {
       decoration: InputDecoration(
         labelText: AppLocalizations.of(context).labelName,
       ),
-      validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context).labelErrorName;
-        }
-      },
+      validator: (text) =>
+          text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
     );
   }
 

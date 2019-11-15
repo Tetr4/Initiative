@@ -30,11 +30,8 @@ class _NpcDialogState extends State<NpcDialog> {
       decoration: InputDecoration(
         labelText: AppLocalizations.of(context).labelName,
       ),
-      validator: (text) {
-        if (text.isEmpty) {
-          return AppLocalizations.of(context).labelErrorName;
-        }
-      },
+      validator: (text) =>
+          text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
     );
   }
 

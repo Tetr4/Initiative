@@ -51,6 +51,8 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
       validator: (value) {
         if (value.isEmpty || num.tryParse(value) == null) {
           return AppLocalizations.of(context).labelErrorInitiative;
+        } else {
+          return null;
         }
       },
     );

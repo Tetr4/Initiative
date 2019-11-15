@@ -121,10 +121,11 @@ class _BattleScreenState extends State<BattleScreen> {
           .map((participant) => LineupItem(
                 key: ObjectKey(participant),
                 participant: participant,
-                onDismissed: (direction) {
+                onDismissed: (direction) async {
                   final index = battle.participants.indexOf(participant);
                   battle.removeParticipant(participant);
                   _showUndoRemoveBar(context, participant, index);
+                  return true;
                 },
               ))
           .toList(),
