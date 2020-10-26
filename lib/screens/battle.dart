@@ -79,15 +79,15 @@ class _BattleScreenState extends State<BattleScreen> {
     return PopupMenuButton<VoidCallback>(
       onSelected: (callback) => callback(),
       itemBuilder: (BuildContext context) => [
-            PopupMenuItem(
-              value: () {
-                final removedParticipants = battle.participants.toList();
-                battle.clear();
-                _showUndoClearBar(context, removedParticipants);
-              },
-              child: Text(AppLocalizations.of(context).tooltipEndBattle),
-            ),
-          ],
+        PopupMenuItem(
+          value: () {
+            final removedParticipants = battle.participants.toList();
+            battle.clear();
+            _showUndoClearBar(context, removedParticipants);
+          },
+          child: Text(AppLocalizations.of(context).tooltipEndBattle),
+        ),
+      ],
     );
   }
 
@@ -161,8 +161,8 @@ class _BattleScreenState extends State<BattleScreen> {
       final priorizedCharacter = await showDialog(
         context: context,
         builder: (BuildContext context) => InitiativeTieDialog(
-              tiedParticipants: tiedParticipants,
-            ),
+          tiedParticipants: tiedParticipants,
+        ),
       );
       if (priorizedCharacter != null) {
         final oldPrio = initiatives[priorizedCharacter];
@@ -235,14 +235,14 @@ class EmptyBattleBody extends StatelessWidget {
   Text _buildText(BuildContext context) {
     return Text(
       AppLocalizations.of(context).emptyTitleBattle,
-      style: Theme.of(context).textTheme.title,
+      style: Theme.of(context).textTheme.headline6,
     );
   }
 
   Text _buildSubText(BuildContext context) {
     return Text(
       AppLocalizations.of(context).emptySubtitleBattle,
-      style: Theme.of(context).textTheme.subtitle,
+      style: Theme.of(context).textTheme.subtitle2,
     );
   }
 }

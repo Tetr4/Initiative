@@ -215,14 +215,14 @@ class EmptyGroupBody extends StatelessWidget {
   Widget _buildText(BuildContext context) {
     return Text(
       AppLocalizations.of(context).emptyTitleGroup,
-      style: Theme.of(context).textTheme.title,
+      style: Theme.of(context).textTheme.headline6,
     );
   }
 
   Widget _buildSubText(BuildContext context) {
     return Text(
       AppLocalizations.of(context).emptySubtitleGroup,
-      style: Theme.of(context).textTheme.subtitle,
+      style: Theme.of(context).textTheme.subtitle2,
     );
   }
 }
