@@ -43,6 +43,7 @@ class InitiativeApp extends StatelessWidget {
       title: 'Initiative!',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: BattleScreen(),
     );
