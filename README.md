@@ -1,11 +1,12 @@
-<img src="./assets/battle_swords.svg" title="Initiative" align="right" height="60" />
+<img src="./assets/battle_swords.svg" alt="Logo" align="right" height="60" />
 
 # Initiative App
+
+<a href="https://play.google.com/store/apps/details?id=de.klimek.initiative"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80"/></a>
 
 Cross-platform Android/iOS App for tracking combat initiative for the [Pathfinder Roleplaying Game](https://en.wikipedia.org/wiki/Pathfinder_Roleplaying_Game).
 
 Made with [Flutter](https://flutter.dev/) and focused on [Material Design](https://material.io/design/) + user experience.
-
 
 <br>
 
