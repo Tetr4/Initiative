@@ -7,8 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 class BattleModel extends Model {
   final List<Character> _participants = [];
 
-  UnmodifiableListView<Character> get participants =>
-      UnmodifiableListView(_participants);
+  UnmodifiableListView<Character> get participants => UnmodifiableListView(_participants);
 
   bool get isActive {
     return participants.isNotEmpty;
@@ -22,7 +21,7 @@ class BattleModel extends Model {
   void addGroup(Group group) {
     for (final member in group.members) {
       // only add members that are not participating
-      final contained = (participant) => participant.name == member.name;
+      contained(participant) => participant.name == member.name;
       if (!participants.any(contained)) {
         _participants.add(member);
       }
@@ -56,7 +55,7 @@ class BattleModel extends Model {
   }
 
   void reorderByInitiative(Map<Character, Initiative> initiatives) {
-    _participants.sort((a, b) => initiatives[a].compareTo(initiatives[b]));
+    _participants.sort((a, b) => initiatives[a]!.compareTo(initiatives[b]!));
     notifyListeners();
   }
 

@@ -7,16 +7,18 @@ import 'package:initiative/screens/dialogs/group.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class GroupsScreen extends StatefulWidget {
+  const GroupsScreen({super.key});
+
   @override
-  _GroupsScreenState createState() => _GroupsScreenState();
+  State<StatefulWidget> createState() => _GroupsScreenState();
 }
 
 class _GroupsScreenState extends State<GroupsScreen> {
-  GroupsModel _groups;
-  Map<Group, bool> selection = Map();
-  List<Group> selectedGroups;
+  late GroupsModel _groups;
+  late List<Group> selectedGroups;
+  Map<Group, bool> selection = {};
 
-  bool get isSelecting => selectedGroups.length > 0;
+  bool get isSelecting => selectedGroups.isNotEmpty;
 
   bool isSelected(group) => selection[group] == true;
 
@@ -27,15 +29,15 @@ class _GroupsScreenState extends State<GroupsScreen> {
   }
 
   void toggleSelection(Group group) => setState(() {
-        selection[group] = !selection[group];
+        selection[group] = !selection[group]!;
       });
 
   void deselectAll() => setState(() => selection.clear());
 
-  void _editGroup(BuildContext context, Group group) {
+  Future<void> _editGroup(BuildContext context, Group group) {
     deselectAll();
     final index = _groups.items.indexOf(group);
-    Navigator.push(
+    return Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AdventurersScreen(groupIndex: index),
@@ -60,9 +62,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context, selectedGroups.length),
-            body: _groups.items.isEmpty
-                ? EmptyGroupsBody()
-                : _buildGroupsList(groups.items),
+            body: _groups.items.isEmpty ? const EmptyGroupsBody() : _buildGroupsList(groups.items),
             floatingActionButton: _buildCreateGroupButton(context),
           ),
         );
@@ -70,7 +70,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
     );
   }
 
-  Widget _buildAppBar(BuildContext context, int selectedItems) {
+  AppBar _buildAppBar(BuildContext context, int selectedItems) {
     final List<Widget> actions = [];
     if (selectedItems == 1) {
       actions.add(_buildEditButton(context));
@@ -90,7 +90,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
 
   Widget _buildEditButton(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.edit),
+      icon: const Icon(Icons.edit),
       tooltip: AppLocalizations.of(context).edit,
       onPressed: () => _editGroup(context, selectedGroups.first),
     );
@@ -98,11 +98,11 @@ class _GroupsScreenState extends State<GroupsScreen> {
 
   Widget _buildDeleteButton(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.delete),
+      icon: const Icon(Icons.delete),
       tooltip: AppLocalizations.of(context).delete,
       onPressed: () {
-        final Map<Group, int> groupToIndex = Map.fromIterable(selectedGroups,
-            value: (group) => _groups.items.indexOf(group));
+        final Map<Group, int> groupToIndex =
+            Map.fromIterable(selectedGroups, value: (group) => _groups.items.indexOf(group));
         _groups.removeAll(selectedGroups);
         _showUndoBar(context, groupToIndex);
       },
@@ -127,8 +127,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
       leading: CircleAvatar(child: Icon(icon)),
       title: Text(group.name),
       subtitle: Text(AppLocalizations.of(context).groupSubtitle(group)),
-      onTap: () =>
-          isSelecting ? toggleSelection(group) : Navigator.pop(context, group),
+      onTap: () => isSelecting ? toggleSelection(group) : Navigator.pop(context, group),
       onLongPress: () => toggleSelection(group),
     );
   }
@@ -137,29 +136,30 @@ class _GroupsScreenState extends State<GroupsScreen> {
     return FloatingActionButton(
       onPressed: () => _showCreateGroupDialog(context),
       tooltip: AppLocalizations.of(context).tooltipCreateGroup,
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 
-  void _showCreateGroupDialog(BuildContext context) async {
+  Future<void> _showCreateGroupDialog(BuildContext context) async {
     final newGroup = await showDialog(
       context: context,
-      builder: (BuildContext context) => GroupDialog(),
+      builder: (BuildContext context) => const GroupDialog(),
     );
     if (newGroup != null) {
       _groups.add(newGroup);
+      if (!context.mounted) return;
       _editGroup(context, newGroup);
     }
   }
 
   void _showUndoBar(BuildContext context, Map<Group, int> groupToIndex) {
-    Scaffold.of(context)
+    ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
+        actionOverflowThreshold: 0.5,
         content: Text(
           groupToIndex.length == 1
-              ? AppLocalizations.of(context)
-                  .deleted(groupToIndex.keys.first.name)
+              ? AppLocalizations.of(context).deleted(groupToIndex.keys.first.name)
               : AppLocalizations.of(context).groupsDeleted(groupToIndex.length),
         ),
         action: SnackBarAction(
@@ -171,17 +171,19 @@ class _GroupsScreenState extends State<GroupsScreen> {
 }
 
 class EmptyGroupsBody extends StatelessWidget {
+  const EmptyGroupsBody({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(64),
+        padding: const EdgeInsets.all(64),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(flex: 80, child: _buildImage()),
             Padding(
-              padding: EdgeInsets.only(top: 16, bottom: 16),
+              padding: const EdgeInsets.only(top: 16, bottom: 16),
               child: _buildText(context),
             ),
             Expanded(flex: 20, child: _buildSubText(context)),
@@ -204,14 +206,14 @@ class EmptyGroupsBody extends StatelessWidget {
   Widget _buildText(BuildContext context) {
     return Text(
       AppLocalizations.of(context).emptyTitleGroups,
-      style: Theme.of(context).textTheme.headline6,
+      style: Theme.of(context).textTheme.titleLarge,
     );
   }
 
   Widget _buildSubText(BuildContext context) {
     return Text(
       AppLocalizations.of(context).emptySubtitleGroups,
-      style: Theme.of(context).textTheme.subtitle2,
+      style: Theme.of(context).textTheme.titleSmall,
     );
   }
 }

@@ -12,8 +12,7 @@ class Storage {
     final pref = prefs.getString("Groups");
     if (pref != null) {
       final List json = jsonDecode(pref);
-      final List<Group> groups =
-          json.map((item) => Group.fromJson(item)).toList();
+      final List<Group> groups = json.map((item) => Group.fromJson(item)).toList();
       return groups;
     } else {
       // default group
@@ -29,13 +28,12 @@ class Storage {
     }
   }
 
-  Future<bool> saveGroups(List<Group> groups) =>
-      prefs.setString("Groups", jsonEncode(groups));
+  Future<bool> saveGroups(List<Group> groups) => prefs.setString("Groups", jsonEncode(groups));
 
   Future<List<Character>> loadBattle() async {
     final pref = prefs.getString("Battle");
     if (pref != null) {
-      final Map json = jsonDecode(pref);
+      final Map<String, dynamic> json = jsonDecode(pref);
       final battleGroup = Group.fromJson(json);
       return battleGroup.members;
     } else {

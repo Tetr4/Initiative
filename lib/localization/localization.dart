@@ -7,7 +7,7 @@ class AppLocalizations {
   AppLocalizations(this.locale);
 
   static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
   static String pluralS(Iterable items) => items.length == 1 ? "" : "s";
@@ -20,7 +20,7 @@ class AppLocalizations {
       'actionSave': 'SAVE',
       'actionCreate': 'CREATE',
       'actionDone': 'DONE',
-      'actionAutoRoll': 'ROLL (1-25)',
+      'actionAutoRoll': 'ROLL (1-20)',
       'titleBattle': 'Battle',
       'titleAddGroup': 'Add group',
       'titleNewGroup': 'New group',
@@ -55,7 +55,7 @@ class AppLocalizations {
       'actionSave': 'SPEICHERN',
       'actionCreate': 'ERSTELLEN',
       'actionDone': 'FERTIG',
-      'actionAutoRoll': 'WÜRFELN (1-25)',
+      'actionAutoRoll': 'WÜRFELN (1-20)',
       'titleBattle': 'Kampf',
       'titleAddGroup': 'Gruppe hinzufügen',
       'titleNewGroup': 'Gruppe erstellen',
@@ -76,19 +76,16 @@ class AppLocalizations {
       'tooltipEndBattle': 'Kampf beenden',
       'tooltipCreateGroup': 'Gruppe erstellen',
       'emptyTitleGroups': 'Keine Gruppen.',
-      'emptySubtitleGroups':
-          'Erstelle eine Gruppe und sie wird hier auftauchen.',
+      'emptySubtitleGroups': 'Erstelle eine Gruppe und sie wird hier auftauchen.',
       'emptyTitleBattle': 'Kein aktiver Kampf.',
-      'emptySubtitleBattle':
-          'Füge Teilnehmer hinzu, um das Gefecht zu beginnen.',
+      'emptySubtitleBattle': 'Füge Teilnehmer hinzu, um das Gefecht zu beginnen.',
       'emptyTitleGroup': 'Keine Gruppenmitglieder.',
-      'emptySubtitleGroup':
-          'Füge Abenteurer hinzu und sie werden hier auftauchen.',
+      'emptySubtitleGroup': 'Füge Abenteurer hinzu und sie werden hier auftauchen.',
       'messageBattleEnded': 'Kampf beendet'
     },
   };
 
-  static Map<String, Map<String, Function>> _localizedTemplates = {
+  static final Map<String, Map<String, Function>> _localizedTemplates = {
     'en': {
       'titleEdit': (String name) => 'Edit $name',
       'titleInitiative': (Character char) => "${char.name}'s initiative",
@@ -97,8 +94,7 @@ class AppLocalizations {
       'groupsDeleted': (int count) => "$count groups deleted",
       'membersDeleted': (int count) => "$count members deleted",
       'itemsSelected': (int count) => '$count selected',
-      'groupSubtitle': (Group group) =>
-          '${group.members.length} adventurer${pluralS(group.members)}',
+      'groupSubtitle': (Group group) => '${group.members.length} adventurer${pluralS(group.members)}',
     },
     'de': {
       'titleEdit': (String name) => '$name bearbeiten',
@@ -112,12 +108,10 @@ class AppLocalizations {
     },
   };
 
-  String _getValue(String key) =>
-      _localizedValues[locale.languageCode][key] ?? _localizedValues['en'][key];
+  String _getValue(String key) => _localizedValues[locale.languageCode]?[key] ?? _localizedValues['en']![key]!;
 
   Function _getTemplate(String key) =>
-      _localizedTemplates[locale.languageCode][key] ??
-      _localizedTemplates['en'][key];
+      _localizedTemplates[locale.languageCode]?[key] ?? _localizedTemplates['en']![key]!;
 
   String get edit => _getValue('edit');
 

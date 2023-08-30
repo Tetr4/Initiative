@@ -1,14 +1,12 @@
-import 'package:meta/meta.dart';
-
 class Character {
   final String name;
   final String description;
   final CharacterType type;
 
   Character({
-    @required this.name,
+    required this.name,
     this.description = "",
-    this.type = CharacterType.ADVENTURER,
+    this.type = CharacterType.adventurer,
   });
 
   Character.fromJson(Map<String, dynamic> json)
@@ -23,39 +21,35 @@ class Character {
       };
 }
 
-enum CharacterType { ADVENTURER, NPC }
+enum CharacterType { adventurer, npc }
 
 class Group {
   final String name;
   final List<Character> members;
 
-  Group({@required this.name, this.members = const []});
+  Group({required this.name, this.members = const []});
 
   Group.fromJson(Map<String, dynamic> json)
       : name = json['name'],
-        members = (json['members'] as List)
-            .map((item) => Character.fromJson(item))
-            .toList();
+        members = (json['members'] as List).map((item) => Character.fromJson(item)).toList();
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'members': members,
       };
 
-  Group copy(List<Character> newMembers) =>
-      Group(name: this.name, members: newMembers);
+  Group copy(List<Character> newMembers) => Group(name: name, members: newMembers);
 }
 
-class Initiative extends Comparable<Initiative> {
+class Initiative implements Comparable<Initiative> {
   final int roll;
   final int priority;
 
-  Initiative({@required this.roll, this.priority = 0});
+  Initiative({required this.roll, this.priority = 0});
 
+  @override
   bool operator ==(other) {
-    return (other is Initiative &&
-        other.roll == roll &&
-        other.priority == priority);
+    return (other is Initiative && other.roll == roll && other.priority == priority);
   }
 
   @override
@@ -63,17 +57,17 @@ class Initiative extends Comparable<Initiative> {
 
   @override
   int compareTo(Initiative other) {
-    final rollResult = this.roll.compareTo(other.roll);
+    final rollResult = roll.compareTo(other.roll);
     if (rollResult != 0) {
       // higher roll first
       return -rollResult;
     } else {
       // higher priority first
-      return -this.priority.compareTo(other.priority);
+      return -priority.compareTo(other.priority);
     }
   }
 
   Initiative addPriority(int value) {
-    return Initiative(roll: this.roll, priority: this.priority + value);
+    return Initiative(roll: roll, priority: priority + value);
   }
 }

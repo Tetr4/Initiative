@@ -3,6 +3,8 @@ import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class NpcDialog extends StatefulWidget {
+  const NpcDialog({super.key});
+
   @override
   State<StatefulWidget> createState() => _NpcDialogState();
 }
@@ -23,26 +25,25 @@ class _NpcDialogState extends State<NpcDialog> {
     );
   }
 
-  TextFormField _buildNameField() {
+  Widget _buildNameField() {
     return TextFormField(
       key: _nameKey,
       autofocus: true,
       decoration: InputDecoration(
         labelText: AppLocalizations.of(context).labelName,
       ),
-      validator: (text) =>
-          text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
+      validator: (text) => text == null || text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
     );
   }
 
-  FlatButton _buildCreateButton(BuildContext context) {
-    return FlatButton(
-      child: new Text(AppLocalizations.of(context).actionCreate),
+  Widget _buildCreateButton(BuildContext context) {
+    return TextButton(
+      child: Text(AppLocalizations.of(context).actionCreate),
       onPressed: () {
-        if (_formKey.currentState.validate()) {
+        if (_formKey.currentState!.validate()) {
           final npc = Character(
-            name: _nameKey.currentState.value,
-            type: CharacterType.NPC,
+            name: _nameKey.currentState!.value!,
+            type: CharacterType.npc,
           );
           Navigator.of(context).pop(npc);
         }

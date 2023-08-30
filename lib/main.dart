@@ -8,7 +8,7 @@ import 'package:initiative/screens/battle.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
+Future<void> main() async {
   final battle = BattleModel();
   final groups = GroupsModel();
 
@@ -17,7 +17,7 @@ void main() async {
       model: battle,
       child: ScopedModel<GroupsModel>(
         model: groups,
-        child: InitiativeApp(),
+        child: const InitiativeApp(),
       ),
     ),
   );
@@ -31,12 +31,14 @@ void main() async {
 }
 
 class InitiativeApp extends StatelessWidget {
+  const InitiativeApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
+      localizationsDelegates: const [
         AppLocalizationsDelegate.delegate,
-        GlobalMaterialLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: AppLocalizationsDelegate.supportedLocales,
@@ -45,7 +47,7 @@ class InitiativeApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BattleScreen(),
+      home: const BattleScreen(),
     );
   }
 }

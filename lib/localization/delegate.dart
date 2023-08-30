@@ -8,8 +8,8 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   static const AppLocalizationsDelegate delegate = AppLocalizationsDelegate();
 
   static const supportedLocales = [
-    const Locale('en', 'US'),
-    const Locale('de', 'DE'),
+    Locale('en', 'US'),
+    Locale('de', 'DE'),
   ];
 
   @override

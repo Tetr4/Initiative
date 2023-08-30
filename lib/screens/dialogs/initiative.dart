@@ -7,10 +7,10 @@ import 'package:initiative/model/data.dart';
 class InitiativeDialog extends StatefulWidget {
   final Character participant;
 
-  InitiativeDialog({
-    Key key,
-    @required this.participant,
-  }) : super(key: key);
+  const InitiativeDialog({
+    super.key,
+    required this.participant,
+  });
 
   @override
   State<StatefulWidget> createState() => _InitiativeDialogState();
@@ -19,7 +19,7 @@ class InitiativeDialog extends StatefulWidget {
 class _InitiativeDialogState extends State<InitiativeDialog> {
   final _formKey = GlobalKey<FormState>();
   final _initiativeKey = GlobalKey<FormFieldState<String>>();
-  final _initiativeController = new TextEditingController();
+  final _initiativeController = TextEditingController();
   final random = Random();
 
   @override
@@ -32,14 +32,11 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
         key: _formKey,
         child: _buildInitiativeField(),
       ),
-      actions: <Widget>[
-        _buildAutoRollButton(context),
-        _buildCreateButton(context)
-      ],
+      actions: <Widget>[_buildAutoRollButton(context), _buildCreateButton(context)],
     );
   }
 
-  TextFormField _buildInitiativeField() {
+  Widget _buildInitiativeField() {
     return TextFormField(
       key: _initiativeKey,
       autofocus: true,
@@ -49,7 +46,7 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
       ),
       keyboardType: TextInputType.number,
       validator: (value) {
-        if (value.isEmpty || num.tryParse(value) == null) {
+        if (value == null || value.isEmpty || num.tryParse(value) == null) {
           return AppLocalizations.of(context).labelErrorInitiative;
         } else {
           return null;
@@ -58,21 +55,21 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
     );
   }
 
-  FlatButton _buildAutoRollButton(BuildContext context) {
-    return FlatButton(
-      child: new Text(AppLocalizations.of(context).actionAutoRoll),
+  Widget _buildAutoRollButton(BuildContext context) {
+    return TextButton(
+      child: Text(AppLocalizations.of(context).actionAutoRoll),
       onPressed: () {
-        _initiativeController.text = (random.nextInt(25) + 1).toString();
+        _initiativeController.text = (random.nextInt(20) + 1).toString();
       },
     );
   }
 
-  FlatButton _buildCreateButton(BuildContext context) {
-    return FlatButton(
-      child: new Text(AppLocalizations.of(context).actionDone),
+  Widget _buildCreateButton(BuildContext context) {
+    return TextButton(
+      child: Text(AppLocalizations.of(context).actionDone),
       onPressed: () {
-        if (_formKey.currentState.validate()) {
-          final initiative = num.parse(_initiativeKey.currentState.value);
+        if (_formKey.currentState!.validate()) {
+          final initiative = num.parse(_initiativeKey.currentState!.value!);
           Navigator.of(context).pop(initiative);
         }
       },

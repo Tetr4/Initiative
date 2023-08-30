@@ -3,6 +3,8 @@ import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class GroupDialog extends StatefulWidget {
+  const GroupDialog({super.key});
+
   @override
   State<StatefulWidget> createState() => _GroupDialogState();
 }
@@ -23,24 +25,23 @@ class _GroupDialogState extends State<GroupDialog> {
     );
   }
 
-  TextFormField _buildNameField() {
+  Widget _buildNameField() {
     return TextFormField(
       key: _nameKey,
       autofocus: true,
       decoration: InputDecoration(
         labelText: AppLocalizations.of(context).labelName,
       ),
-      validator: (text) =>
-          text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
+      validator: (text) => text == null || text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
     );
   }
 
-  FlatButton _buildCreateButton(BuildContext context) {
-    return FlatButton(
-      child: new Text(AppLocalizations.of(context).actionCreate),
+  Widget _buildCreateButton(BuildContext context) {
+    return TextButton(
+      child: Text(AppLocalizations.of(context).actionCreate),
       onPressed: () {
-        if (_formKey.currentState.validate()) {
-          final group = Group(name: _nameKey.currentState.value);
+        if (_formKey.currentState!.validate()) {
+          final group = Group(name: _nameKey.currentState!.value!);
           Navigator.of(context).pop(group);
         }
       },

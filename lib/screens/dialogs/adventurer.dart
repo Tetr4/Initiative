@@ -3,12 +3,12 @@ import 'package:initiative/localization/localization.dart';
 import 'package:initiative/model/data.dart';
 
 class AdventurerDialog extends StatefulWidget {
-  final Character adventurer;
+  final Character? adventurer;
 
-  AdventurerDialog({
-    Key key,
+  const AdventurerDialog({
+    super.key,
     this.adventurer,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _AdventurerDialogState();
@@ -21,14 +21,14 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
   final _descriptionKey = GlobalKey<FormFieldState<String>>();
   final _descriptionFocus = FocusNode();
 
-  Character get adventurer => widget.adventurer;
+  Character? get adventurer => widget.adventurer;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
         adventurer != null
-            ? AppLocalizations.of(context).titleEdit(adventurer.name)
+            ? AppLocalizations.of(context).titleEdit(adventurer!.name)
             : AppLocalizations.of(context).titleAddMember,
       ),
       content: Form(
@@ -42,7 +42,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
     );
   }
 
-  TextFormField _buildNameField() {
+  Widget _buildNameField() {
     return TextFormField(
       key: _nameKey,
       focusNode: _nameFocus,
@@ -52,8 +52,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
         labelText: AppLocalizations.of(context).labelName,
       ),
       initialValue: adventurer?.name,
-      validator: (text) =>
-          text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
+      validator: (text) => text == null || text.isEmpty ? AppLocalizations.of(context).labelErrorName : null,
       onFieldSubmitted: (term) {
         _nameFocus.unfocus();
         FocusScope.of(context).requestFocus(_descriptionFocus);
@@ -61,7 +60,7 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
     );
   }
 
-  TextFormField _buildDescriptionField() {
+  Widget _buildDescriptionField() {
     return TextFormField(
       key: _descriptionKey,
       focusNode: _descriptionFocus,
@@ -69,24 +68,20 @@ class _AdventurerDialogState extends State<AdventurerDialog> {
         labelText: AppLocalizations.of(context).labelDescription,
       ),
       initialValue: adventurer?.description,
-      validator: (text) => text.isEmpty
-          ? AppLocalizations.of(context).labelErrorDescription
-          : null,
+      validator: (text) => text == null || text.isEmpty ? AppLocalizations.of(context).labelErrorDescription : null,
     );
   }
 
-  FlatButton _buildCreateButton(BuildContext context) {
-    return FlatButton(
-      child: new Text(
-        adventurer != null
-            ? AppLocalizations.of(context).actionSave
-            : AppLocalizations.of(context).actionCreate,
+  Widget _buildCreateButton(BuildContext context) {
+    return TextButton(
+      child: Text(
+        adventurer != null ? AppLocalizations.of(context).actionSave : AppLocalizations.of(context).actionCreate,
       ),
       onPressed: () {
-        if (_formKey.currentState.validate()) {
+        if (_formKey.currentState!.validate()) {
           final adventurer = Character(
-            name: _nameKey.currentState.value,
-            description: _descriptionKey.currentState.value,
+            name: _nameKey.currentState!.value!,
+            description: _descriptionKey.currentState!.value!,
           );
           Navigator.of(context).pop(adventurer);
         }

@@ -5,10 +5,10 @@ import 'package:initiative/model/data.dart';
 class InitiativeTieDialog extends StatelessWidget {
   final List<Character> tiedParticipants;
 
-  InitiativeTieDialog({
-    Key key,
-    @required this.tiedParticipants,
-  }) : super(key: key);
+  const InitiativeTieDialog({
+    super.key,
+    required this.tiedParticipants,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class InitiativeTieDialog extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
         shrinkWrap: true,
@@ -35,9 +35,7 @@ class InitiativeTieDialog extends StatelessWidget {
   Widget _buildItem(BuildContext context, Character character) {
     return ListTile(
       leading: CircleAvatar(
-        child: Icon(character.type == CharacterType.ADVENTURER
-            ? Icons.face
-            : Icons.bug_report),
+        child: Icon(character.type == CharacterType.adventurer ? Icons.face : Icons.bug_report),
       ),
       title: Text(character.name),
       onTap: () => Navigator.of(context).pop(character),
